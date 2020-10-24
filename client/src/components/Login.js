@@ -13,6 +13,8 @@ import {
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // Layout
 import Auth from './Auth';
+import { login } from '../actions';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -29,14 +31,11 @@ const Login = () => {
   const classes = useStyles();
   const [responsibleId, setResponsibleId] = useState('');
   const notify = useNotify();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://192.168.11.128:4000/api/login`, { 'responsible_id': responsibleId })
-      .then(res => {
-        history.push('/home');
-      })
-      .catch(err => notify(err.responde.data.message));
+    dispatch(login({ 'responsible_id': responsibleId }));
   };
 
   return (
