@@ -1,7 +1,9 @@
 const express = require('express');
-const votationCenterController = require('./api/votation-centers');
+const loginRoutes = require('./api/login');
+const votationCenterRoutes = require('./api/votation-centers');
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use('/api/votation-centers', votationCenterController);
+  app.use('/api', loginRoutes);
+  app.use('/api/votation-centers', votationCenterRoutes);
 };
