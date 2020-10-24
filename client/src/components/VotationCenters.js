@@ -11,29 +11,32 @@ import {
 } from 'react-admin';
 
 const VoteButton = ({ record }) => {
-    const [approve, { loading }] = useMutation({
-        type: 'update',
-        resource: 'votation-centers',
-        payload: { id: record.id, data: {} }
-    });
+  const [approve, { loading }] = useMutation({
+    type: 'update',
+    resource: 'votation-centers',
+    payload: { id: record.id, data: {} }
+  });
 
-    return <Button label="Approve" onClick={approve} disabled={loading} />;
+  return <Button label="Approve" onClick={approve} disabled={loading} />;
 };
 
 export const VotationCentersList = (props) => (
   <List {...props}>
     <Datagrid>
-      <TextField source="name" />
-      <TextField source="votes" />
+      <TextField label="Nombre" source="name" />
+      <TextField label="Nº de votos" source="votes" />
       <VoteButton />
     </Datagrid>
   </List>
 );
 
 export const VotationCentersCreate = (props) => (
-  <Create {...props}>
+  <Create {...props} title="Nuevo centro de votación" >
     <SimpleForm>
-      <TextInput source="name" />
+      <TextInput source="name" label="Nombre" />
+      <TextInput source="responsible" label="Responsable" />
+      <TextInput source="address" label="Dirección" />
+      <TextInput source="responsible_id" label="Cédula" />
     </SimpleForm>
   </Create>
 );
