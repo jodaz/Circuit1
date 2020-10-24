@@ -7,7 +7,8 @@ import {
   TextInput,
   Create,
   useMutation,
-  Button
+  Button,
+  CreateButton
 } from 'react-admin';
 
 const VoteButton = ({ record }) => {
@@ -20,15 +21,21 @@ const VoteButton = ({ record }) => {
   return <Button label="Approve" onClick={approve} disabled={loading} />;
 };
 
-export const VotationCentersList = (props) => (
-  <List {...props}>
-    <Datagrid>
-      <TextField label="Nombre" source="name" />
-      <TextField label="Nº de votos" source="votes" />
-      <VoteButton />
-    </Datagrid>
-  </List>
-);
+export const VotationCentersList = (props) => {
+
+  return (
+    <List 
+      {...props}
+      actions={<CreateButton />}
+    >
+      <Datagrid>
+        <TextField label="Nombre" source="name" />
+        <TextField label="Nº de votos" source="votes" />
+        <VoteButton />
+      </Datagrid>
+    </List>
+  );
+};
 
 export const VotationCentersCreate = (props) => (
   <Create {...props} title="Nuevo centro de votación" >
