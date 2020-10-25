@@ -1,6 +1,7 @@
 import React from 'react';
 import {
     Button,
+    TextField,
     Dialog,
     DialogActions,
     DialogContent,
@@ -12,6 +13,9 @@ import { useSelector } from 'react-redux';
 
 export default function VoteDialog() {
   const [open, setOpen] = React.useState(false);
+  const [fullName, setFullName] = React.useState('');
+  const [personId, setPersonId] = React.useState('');
+  const [errors, setErrors] = React.useState({});
   const user = useSelector(store => store.user);
 
   const handleClickOpen = () => {
@@ -25,7 +29,10 @@ export default function VoteDialog() {
   const [vote, { loading }] = useMutation({
     type: 'update',
     resource: 'votation-centers',
-    payload: { id: user.id, data: {} }
+    payload: { id: user.id, data: {
+      'full_name': fullName,
+      'personId': personId
+    }}
   });
 
   return (
@@ -42,9 +49,35 @@ export default function VoteDialog() {
         <DialogTitle id="alert-dialog-title">{"¿Está seguro de registrar un voto?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Está a punto de registrar un voto para su centro de votación.
+            Ingrese los datos del votante.
+
             Esta acción no puede ser deshecha.
           </DialogContentText>
+          <TextField
+            variant="outlined"
+            error={errors.person_id && true}
+            margin="normal"
+            fullWidth
+            id="personId"
+            label="Cédula de identidad"
+            name="personId"
+            onChange={e => setPersonId(e.target.value)}
+            required
+            helperText={errors.person_id && 'Ingrese la cédula del votante'}
+          />
+          <TextField
+            variant="outlined"
+            error={errors.full_name && true}
+            margin="normal"
+            fullWidth
+            id="fullName"
+            label="Nombre completo"
+            name="full_name"
+            onChange={e => setFullName(e.target.value)}
+            required
+            helperText={errors.full_name && 'Ingrese el nombre completo'}
+          />
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

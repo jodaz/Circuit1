@@ -7,7 +7,7 @@ import { history } from './utils';
 const i18nProvider = polyglotI18nProvider(() => spanishMessages);
 
 const config = {
-  apiURL: 'http://201.249.178.134:3000/api'
+  apiURL: 'http://votebermudez.herokuapp.com/api'
 }
 
 export const dataProvider = simpleRestProvider(config.apiURL);

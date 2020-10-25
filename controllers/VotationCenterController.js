@@ -1,4 +1,5 @@
 const Model = require('../models/VotationCenter');
+const Person = require('../models/Person');
 
 const get = (req, res) => {
   const { range } = req.query;
@@ -34,13 +35,13 @@ const update = async (req, res) => {
   const { id } = req.params;
   const { ...data } = req.body;
 
-  const person = await Person.create(data).save();
+  const person = await Person.create(data);
 
   await Model.findByIdAndUpdate(id, {$inc: { 'votes': 1} }, {new: true})
     .then(model => {
 
-      await model.people.push(person);
-      await model.save();
+      model.people.push(person);
+      model.save();
       
       return res.status(200).json(model)
     }).catch(err => res.status(400).json(err.message));
