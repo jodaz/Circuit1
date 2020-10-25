@@ -5,10 +5,14 @@ import {
   TextField,
   SimpleForm,
   TextInput,
+  Pagination,
   Create,
   CreateButton,
   DeleteButton
 } from 'react-admin';
+
+const ListPagination = props => 
+  <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
 export const VotationCentersList = (props) => {
   return (
@@ -16,6 +20,7 @@ export const VotationCentersList = (props) => {
       {...props}
       actions={<CreateButton />}
       title='Centros de votación'
+      pagination={<ListPagination />}
     >
       <Datagrid>
         <TextField label="Nombre" source="name" />

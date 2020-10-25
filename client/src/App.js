@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Admin, Resource } from 'react-admin';
 import { VotationCentersList, VotationCentersCreate } from './components/VotationCenters';
+import { VotersList } from './components/Voters';
 import Login from './components/Login';
 import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
@@ -33,7 +34,17 @@ function App() {
         history={history}
         title='Vote'
       >
-        <Resource name="votation-centers" list={VotationCentersList} create={VotationCentersCreate} options={{ label: 'Centros de votación' }} />
+        <Resource 
+          name="votation-centers"
+          list={VotationCentersList}
+          create={VotationCentersCreate}
+          options={{ label: 'Centros de votación' }}
+        />
+        <Resource 
+          name="voters" 
+          list={VotersList}
+          options={{ label: 'Votantes' }}
+        />
       </Admin>
     </Provider>
   );

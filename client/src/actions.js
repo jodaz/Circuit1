@@ -15,3 +15,12 @@ export const setUser = (user = {}) => ({
 export const fetchUser = () => ({
   type: 'FETCH_USER' 
 });
+
+export const setErrors = (errors = {}) => ({
+  type: 'SET_ERRORS',
+  payload: errors
+});
+
+export const clearErrors = () => ({
+  type: 'CLEAR_ERRORS'
+});
