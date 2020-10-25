@@ -29,6 +29,14 @@ const update = (req, res) => {
     .catch(err => res.status(400).json(err.message));
 };
 
-// const destroy = (req, res) => {  };
+const destroy = (req, res) => {
+  const { id } = req.params;
 
-module.exports = { get, store, update };
+  Model.findOneAndDelete({ '_id': id})
+    .then(() => res.status(200).json({
+      message: '¡Elemento eliminado!'
+    }))
+    .catch(err => res.status(400).json(err.message));
+};
+
+module.exports = { get, store, update, destroy };

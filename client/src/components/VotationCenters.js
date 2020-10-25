@@ -6,7 +6,8 @@ import {
   SimpleForm,
   TextInput,
   Create,
-  CreateButton
+  CreateButton,
+  DeleteButton
 } from 'react-admin';
 
 export const VotationCentersList = (props) => {
@@ -19,6 +20,7 @@ export const VotationCentersList = (props) => {
       <Datagrid>
         <TextField label="Nombre" source="name" />
         <TextField label="Nº de votos" source="votes" />
+        <DeleteButton />
       </Datagrid>
     </List>
   );
@@ -29,7 +31,8 @@ export const VotationCentersCreate = (props) => (
     <SimpleForm>
       <TextInput source="name" label="Nombre del UBCH" />
       <TextInput source="responsible" label="Nombre y apellidos del jefe de UBCH" />
-      <TextInput source="address" label="Dirección del UBCH" />
+      <TextInput source="municipality" label="Municipio" />
+      <TextInput source="parish" label="Parroquia" />
       <TextInput source="responsible_id" label="Cédula" />
     </SimpleForm>
   </Create>

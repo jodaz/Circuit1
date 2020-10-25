@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const VotationCenterSchema = new mongoose.Schema({
   name: String,
   responsible: String,
-  address: String,
+  municipality: String,
+  parish: String,
   responsible_id: String,
   votes: { type: Number, default: 0}
 },
