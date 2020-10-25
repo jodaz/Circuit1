@@ -3,7 +3,6 @@ import { Title } from 'react-admin';
 import {
   makeStyles,
   Card,
-  Button,
   CardContent,
   CardActions,
   Typography
@@ -37,9 +36,8 @@ export default function Dashboard() {
       <Title title='Inicio' />
 
       <Card className={classes.root}>
-
         <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
+          <Typography className={classes.title} color="textPrimary" gutterBottom>
             Centro de votación {user.name}
           </Typography>
         </CardContent>

@@ -10,7 +10,6 @@ const app = express();
 const { APP_PORT, MONGO_URI, OPTIONS } = require('./config');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(helmet());
 app.use(cors());
 
 app.use(function(req, res, next) {
@@ -29,7 +28,7 @@ require('./routes')(app);
 if (APP_ENV = 'production') {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'html'));
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 } 
 

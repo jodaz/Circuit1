@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { history, setAuthToken } from './utils';
+import { config } from './initializers';
 
 export const login = data => 
-  axios.post('http://192.168.11.128:4000/api/login', data)
+  axios.post(config.apiURL+'/login', data)
     .then(res => {
       const data = res.data;
 

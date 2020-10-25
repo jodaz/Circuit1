@@ -19,7 +19,9 @@ export const VotationCentersList = (props) => {
     >
       <Datagrid>
         <TextField label="Nombre" source="name" />
-        <TextField label="Nº de votos" source="votes" />
+        <TextField label="Municipio" source="municipality" />
+        <TextField label="Parroquia" source="parish" />
+        <TextField label="Votos" source="votes" />
         <DeleteButton />
       </Datagrid>
     </List>

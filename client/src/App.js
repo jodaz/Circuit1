@@ -1,8 +1,10 @@
+import React, { useEffect } from 'react';
 import { Admin, Resource } from 'react-admin';
 import { VotationCentersList, VotationCentersCreate } from './components/VotationCenters';
 import Login from './components/Login';
 import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
+import { isEmpty } from './utils';
 
 import {
   store,
@@ -12,6 +14,13 @@ import {
 } from './initializers';
 
 function App() {
+
+  useEffect(() => {
+    if (isEmpty(localStorage.votingApp) && window.location.pathname == 'dashboard') {
+      history.push('/login');
+    }
+  }, []);
+
   return (
     <Provider
       store={store}
@@ -22,6 +31,7 @@ function App() {
         loginPage={Login}
         customRoutes={customRoutes}
         history={history}
+        title='Vote'
       >
         <Resource name="votation-centers" list={VotationCentersList} create={VotationCentersCreate} options={{ label: 'Centros de votación' }} />
       </Admin>

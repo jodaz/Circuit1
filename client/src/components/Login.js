@@ -1,10 +1,5 @@
 import * as React from 'react';
-import axios from 'axios';
 import { useState } from 'react';
-import { history } from '../utils';
-import {
-  useNotify
-} from 'react-admin';
 import {
   makeStyles,
   TextField,
@@ -30,7 +25,6 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const classes = useStyles();
   const [responsibleId, setResponsibleId] = useState('');
-  const notify = useNotify();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
