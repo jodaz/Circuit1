@@ -10,24 +10,29 @@ import {
   CreateButton,
   DeleteButton
 } from 'react-admin';
+import { isEmpty } from '../utils';
+import { useSelector } from 'react-redux';
 
 const ListPagination = props => 
   <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
 export const VotationCentersList = (props) => {
+  const user = useSelector(store => store.user);
+
   return (
     <List 
       {...props}
       actions={<CreateButton />}
       title='Centros de votación'
       pagination={<ListPagination />}
+      bulkActionButtons={false}
     >
       <Datagrid>
         <TextField label="Nombre" source="name" />
         <TextField label="Municipio" source="municipality" />
         <TextField label="Parroquia" source="parish" />
         <TextField label="Votos" source="votes" />
-        <DeleteButton />
+        { !isEmpty(user) && <DeleteButton /> }
       </Datagrid>
     </List>
   );

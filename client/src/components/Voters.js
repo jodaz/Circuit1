@@ -16,6 +16,7 @@ export const VotersList = (props) => {
         actions={null}
         title='Votantes'
         pagination={<VotersPagination />}
+        bulkActionButtons={false}
       >
         <Datagrid>
           <TextField label="Nombre" source="full_name" />
