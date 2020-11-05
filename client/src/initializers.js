@@ -7,7 +7,7 @@ import { history } from './utils';
 const i18nProvider = polyglotI18nProvider(() => spanishMessages);
 
 const config = {
-  apiURL: 'http://192.168.11.128:4000/api'
+  apiURL: `${window.location.origin}:4000/api`
 }
 
 export const dataProvider = simpleRestProvider(config.apiURL);

@@ -17,7 +17,7 @@ import {
 function App() {
 
   useEffect(() => {
-    if (isEmpty(localStorage.votingApp) && window.location.pathname == 'dashboard') {
+    if (isEmpty(localStorage.votingApp)) {
       history.push('/login');
     }
   }, []);

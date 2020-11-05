@@ -24,13 +24,19 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const [errors, setErrors] = useState({});
   const classes = useStyles();
-  const [responsibleId, setResponsibleId] = useState('');
+  const [data, setData] = useState({});
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ 'responsible_id': responsibleId }));
+    dispatch(login(data));
   };
+
+  const handleData = (e) => {
+    const { name, value } = e.target;
+
+    setData({...data, [name]: value });
+  }
 
   return (
     <Auth title='Inicio de sesión'>
@@ -41,11 +47,23 @@ const Login = () => {
           margin="normal"
           fullWidth
           id="login"
-          label="Cédula de identidad"
-          name="responsible_id"
-          onChange={e => setResponsibleId(e.target.value)}
+          label="Login"
+          name="login"
+          onChange={handleData}
           required
-          helperText={errors.responsible_id && 'Ingrese su correo electrónico'}
+          helperText={errors.login && 'Ingrese su login'}
+        />
+        <TextField
+          variant="outlined"
+          error={errors.responsible_id && true}
+          margin="normal"
+          fullWidth
+          id="password"
+          label="Contraseña"
+          name="login"
+          onChange={handleData}
+          required
+          helperText={errors.password && 'Ingrese su contraseña'}
         />
         <Button
           type="submit"
