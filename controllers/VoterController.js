@@ -1,11 +1,11 @@
 const Model = require('../models/Person');
 
-const get = (req, res) => {
+const get = async (req, res) => {
   const { range } = req.query;
 
   let [min, max] = JSON.parse(range);
 
-  Model.find()
+  await Model.find()
     .skip(min+1)
     .limit(max+1)
     .sort({ createdAt: -1 })

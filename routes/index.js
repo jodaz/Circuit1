@@ -2,10 +2,24 @@ const express = require('express');
 const loginRoutes = require('./api/login');
 const votationCenterRoutes = require('./api/votation-centers');
 const voterRoutes = require('./api/voters');
+const userRoutes = require('./api/users');
+const passport = require('passport');
 
 module.exports = (app) => {
-  app.use(express.json());
   app.use('/api', loginRoutes);
-  app.use('/api/voters', voterRoutes);
-  app.use('/api/votation-centers', votationCenterRoutes);
+  app.use(
+    '/api/voters',
+    passport.authenticate('jwt', { session: false }),
+    voterRoutes
+  );
+  app.use(
+    '/api/users',
+    passport.authenticate('jwt', { session: false }),
+    userRoutes
+  );
+  app.use(
+    '/api/votation-centers',
+    passport.authenticate('jwt', { session: false }),
+    votationCenterRoutes
+  );
 };

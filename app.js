@@ -5,9 +5,12 @@ const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
 const app = express();
+const passport = require('passport');
 
 // Setting up
 const { APP_PORT, MONGO_URI, OPTIONS } = require('./config');
+app.use(passport.initialize());
+require('./config/passport')(passport);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());

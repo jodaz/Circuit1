@@ -1,5 +1,5 @@
-const Model = require('../models/VotationCenter');
-const Person = require('../models/Person');
+const Model = require('../models/User');
+const bcrypt = require('bcrypt');
 
 const get = async (req, res) => {
   const { range } = req.query;
@@ -12,7 +12,7 @@ const get = async (req, res) => {
     .sort({ createdAt: -1 })
     .then(models => {
 
-      const contentRange = `votation centers ${range}/${models.length}`;
+      const contentRange = `users ${range}/${models.length}`;
       
       res.status(200)
         .set('Content-Range', contentRange)
@@ -22,29 +22,21 @@ const get = async (req, res) => {
 };
 
 const store = async (req, res) => {
-  const { ...data } = req.body;
-  
-  let votationCenter = new Model(data);
+  const {...data} = req.body;
 
-  await votationCenter.save()
+  const hash = await bcrypt.hash(data.password, 10);
+  const user = new Model({
+    ...data,
+    password: hash
+  });
+
+  await user.save()
     .then(model => res.status(200).json(model))
     .catch(err => res.status(400).json(err.message));
 };
 
 const update = async (req, res) => {
-  const { id } = req.params;
-  const { ...data } = req.body;
-
-  const person = await Person.create(data);
-
-  await Model.findByIdAndUpdate(id, {$inc: { 'votes': 1} }, {new: true})
-    .then(model => {
-
-      model.people.push(person);
-      model.save();
-      
-      return res.status(200).json(model)
-    }).catch(err => res.status(400).json(err.message));
+  //  
 };
 
 const destroy = async (req, res) => {

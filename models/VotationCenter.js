@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 
 const VotationCenterSchema = new mongoose.Schema({
   name: String,
-  responsible: String,
   municipality: String,
   parish: String,
-  responsible_id: String,
+  user_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   votes: { type: Number, default: 0},
   people: [{type: mongoose.Schema.Types.ObjectId, ref: 'Person'}]
 },

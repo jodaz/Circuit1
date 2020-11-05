@@ -8,5 +8,6 @@ module.exports = {
     useNewUrlParser: true,
     useFindAndModify: true,
     useUnifiedTopology: true
-  }
+  },
+  SECRET: process.env.PASSPORT_SECRET
 };

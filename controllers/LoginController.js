@@ -1,24 +1,39 @@
-const Model = require('../models/VotationCenter');
+const Model = require('../models/User');
 const isEmpty = require('../utils/isEmpty');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { SECRET } = require('../config');
 
-const login = (req, res) => {
+const login = async (req, res) => {
+  const { login, password } = req.body;
 
-  Model.findOne({ 'responsible_id': req.body.responsible_id })
+  await Model.findOne({ 'login': login })
     .then(model => {
-
       if (isEmpty(model)) {
         return res.status(401)
           .json({
             'password': 'Credenciales inválidas'
           });
       }
+      bcrypt.compare(password, model.password)
+        .then(match => {
+          if (match) {
+            const payload = { id: model.id };
 
-      res.status(200)
-        .json(model)
-    })
-    .catch(err => err.res.status(400).json({
-      'message': '¡Esta cédula no está registrada!'
-    }));
+            jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+              if (err) throw err;
+
+              res.json({ success: true, token: `Bearer ${token}`, user: model });
+            });
+          } else {
+            errors.password = 'Incorrect password';
+            return res.status(400).json({
+              'message': '¡Esta cédula no está registrada!'
+            });
+          }
+        })
+        .catch(err => console.log(err));
+    });
 };
 
 module.exports = { login };
