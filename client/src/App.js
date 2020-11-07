@@ -6,7 +6,7 @@ import { UsersList, UsersCreate } from './components/Users';
 import Login from './components/Login';
 import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
-import { setAuthToken, isEmpty } from './utils';
+import { isEmpty } from './utils';
 
 import {
   store,
@@ -25,6 +25,7 @@ function App() {
     } else {
       route = '/login';
     }
+    history.push(route);
   }, []);
 
   return (

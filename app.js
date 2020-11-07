@@ -6,9 +6,10 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const passport = require('passport');
+const db = require('./config/db');
 
 // Setting up
-const { APP_PORT, MONGO_URI, OPTIONS } = require('./config');
+const { APP_PORT } = require('./config');
 app.use(passport.initialize());
 require('./config/passport')(passport);
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,10 +21,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-mongoose
-  .connect(`${MONGO_URI}`, OPTIONS)
-  .then(() => console.log(`MongoDB connected to ${MONGO_URI}`))
-  .catch(error => console.log(error));
+// Start DB cluster 
+db.start();
 
 // Routing
 require('./routes')(app);
