@@ -17,6 +17,7 @@ export const VotationCentersList = (props) => {
   return (
     <List 
       {...props}
+      title="Centros de votación"
       bulkActionButtons={false}
     >
       <Datagrid>
