@@ -5,25 +5,31 @@ const get = async (req, res) => {
   const { page } = req.query;
 
   const limit = parseInt(page.size);
-  const skip = page.size * page.number; 
+  const skip = page.size * page.number;
 
   await Model.find()
-    .skip(skip)
-    .limit(limit)
+    .limit(limit) 
     .sort({ createdAt: -1 })
     .then(models => {
+      const data = models.map(model => {
+        const { id, ...rest } = model;
 
-      const contentRange = `users ${range}/${models.length}`;
-      
+        return ({
+          id: id,
+          attributes: rest._doc
+        });
+      });
+
       res.status(200)
-        .set('Content-Range', contentRange)
-        .json(models);
+        .json({
+          data: data
+        });
     })
     .catch(err => res.status(400).json(err.message));
 };
 
 const store = async (req, res) => {
-  const {...data} = req.body;
+  const {...data} = req.body.attributes;
 
   const hash = await bcrypt.hash(data.password, 10);
   const user = new Model({
@@ -32,7 +38,7 @@ const store = async (req, res) => {
   });
 
   await user.save()
-    .then(model => res.status(200).json(model))
+    .then(model => res.status(200).json({ success: 'true', message: 'Usuario creado' }))
     .catch(err => res.status(400).json(err.message));
 };
 
