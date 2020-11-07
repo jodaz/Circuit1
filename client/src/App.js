@@ -15,17 +15,20 @@ import {
 } from './initializers';
 
 function App() {
-
   // Check authentication
   useEffect(() => {
-    const route = (window.location.pathname == '/login') 
-      ? '/home'
-      : window.location.pathname;
+    let route = window.location.pathname;
 
     if (!isEmpty(localStorage.votingApp)) {
-      history.push(route);
+      route = (route == '/login' || route == '/') ? '/home' : route;
+
       setAuthToken(localStorage.votingApp);
+    } else {
+      route = '/login';
     }
+
+    history.push(route);
+
   }, []);
 
   return (

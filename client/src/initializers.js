@@ -1,5 +1,4 @@
 import createAdminStore from './store';
-import simpleRestProvider from 'ra-data-simple-rest';
 import spanishMessages from '@blackbox-vision/ra-language-spanish';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import { isEmpty, history } from './utils';
