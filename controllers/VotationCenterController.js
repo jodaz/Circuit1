@@ -2,21 +2,28 @@ const Model = require('../models/VotationCenter');
 const Person = require('../models/Person');
 
 const get = async (req, res) => {
-  const { range } = req.query;
+  const { page } = req.query;
 
-  let [min, max] = JSON.parse(range);
+  const limit = parseInt(page.size);
+  const skip = page.size * page.number;
 
   await Model.find()
-    .skip(min+1)
-    .limit(max+1)
+    .limit(limit) 
     .sort({ createdAt: -1 })
     .then(models => {
+      const data = models.map(model => {
+        const { id, ...rest } = model;
 
-      const contentRange = `votation centers ${range}/${models.length}`;
-      
+        return ({
+          id: id,
+          attributes: rest._doc
+        });
+      });
+
       res.status(200)
-        .set('Content-Range', contentRange)
-        .json(models);
+        .json({
+          data: data
+        });
     })
     .catch(err => res.status(400).json(err.message));
 };

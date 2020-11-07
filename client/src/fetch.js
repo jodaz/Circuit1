@@ -4,15 +4,8 @@ import { config } from './initializers';
 
 export const login = data => 
   axios.post(config.apiURL+'/login', data)
-    .then(res => {
-      const data = res.data;
-
-      // localStorage.setItem('token', token);
-      // setAuthToken(token);
-
-      history.push('/home');
-      return data;
-    });
+    .then(res => ({ response: res.data }))
+    .catch(err => ({ error: err.response.data }));
 
 export const logout = () =>
   axios.get('/logout')

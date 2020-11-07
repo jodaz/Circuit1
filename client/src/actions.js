@@ -17,7 +17,7 @@ export const fetchUser = () => ({
 });
 
 export const setErrors = (errors = {}) => ({
-  type: 'SET_ERRORS',
+  type: 'SET_FORM_ERRORS',
   payload: errors
 });
 

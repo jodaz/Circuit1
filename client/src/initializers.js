@@ -2,15 +2,23 @@ import createAdminStore from './store';
 import simpleRestProvider from 'ra-data-simple-rest';
 import spanishMessages from '@blackbox-vision/ra-language-spanish';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
-import { history } from './utils';
+import { isEmpty, history } from './utils';
+import jsonapiClient from "ra-jsonapi-client";
+import { fetchUtils } from 'react-admin';
 
 const i18nProvider = polyglotI18nProvider(() => spanishMessages);
 
 const config = {
-  apiURL: `${window.location.origin}:4000/api`
+  apiURL: `http://201.249.178.134:4000/api`
 }
 
-export const dataProvider = simpleRestProvider(config.apiURL);
+const settings = {
+  headers: {
+    Authorization: !isEmpty(localStorage.votingApp) ? localStorage.votingApp : ''
+  }
+};
+
+export const dataProvider = jsonapiClient(config.apiURL, settings);
 
 export const store = createAdminStore({
   dataProvider,

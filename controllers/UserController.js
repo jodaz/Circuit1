@@ -2,13 +2,14 @@ const Model = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const get = async (req, res) => {
-  const { range } = req.query;
+  const { page } = req.query;
 
-  let [min, max] = JSON.parse(range);
+  const limit = parseInt(page.size);
+  const skip = page.size * page.number; 
 
   await Model.find()
-    .skip(min+1)
-    .limit(max+1)
+    .skip(skip)
+    .limit(limit)
     .sort({ createdAt: -1 })
     .then(models => {
 

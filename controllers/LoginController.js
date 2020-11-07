@@ -16,7 +16,7 @@ const login = async (req, res) => {
     .then(model => {
       if (isEmpty(model)) {
         errors.login = 'Usuario no encontrado.'
-        return res.status(401)
+        return res.status(400)
           .json(errors);
       }
       bcrypt.compare(password, model.password)

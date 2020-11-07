@@ -9,7 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // Layout
 import Auth from './Auth';
 import { login } from '../actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  const [errors, setErrors] = useState({});
   const classes = useStyles();
   const [data, setData] = useState({});
   const dispatch = useDispatch();
+  const errors = useSelector(store => store.errors.form);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const Login = () => {
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
-          error={errors.responsible_id && true}
+          error={errors.login && true}
           margin="normal"
           fullWidth
           id="login"
@@ -51,19 +51,20 @@ const Login = () => {
           name="login"
           onChange={handleData}
           required
-          helperText={errors.login && 'Ingrese su login'}
+          helperText={errors.login && errors.login}
         />
         <TextField
           variant="outlined"
-          error={errors.responsible_id && true}
+          error={errors.password && true}
           margin="normal"
           fullWidth
           id="password"
           label="Contraseña"
-          name="login"
+          name="password"
+          type="password"
           onChange={handleData}
           required
-          helperText={errors.password && 'Ingrese su contraseña'}
+          helperText={errors.password && errors.password}
         />
         <Button
           type="submit"

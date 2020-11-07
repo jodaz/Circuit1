@@ -5,7 +5,7 @@ import { VotersList } from './components/Voters';
 import Login from './components/Login';
 import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
-import { isEmpty } from './utils';
+import { setAuthToken, isEmpty } from './utils';
 
 import {
   store,
@@ -16,9 +16,15 @@ import {
 
 function App() {
 
+  // Check authentication
   useEffect(() => {
-    if (isEmpty(localStorage.votingApp)) {
-      history.push('/login');
+    const route = (window.location.pathname == '/login') 
+      ? '/home'
+      : window.location.pathname;
+
+    if (!isEmpty(localStorage.votingApp)) {
+      history.push(route);
+      setAuthToken(localStorage.votingApp);
     }
   }, []);
 

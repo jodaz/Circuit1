@@ -3,18 +3,13 @@ import {
   List, 
   Datagrid, 
   TextField,
+  Create,
   SimpleForm,
   TextInput,
-  Pagination,
-  Create,
-  CreateButton,
   DeleteButton
 } from 'react-admin';
 import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
-
-const ListPagination = props => 
-  <Pagination rowsPerPageOptions={[10, 25, 50, 100]} {...props} />;
 
 export const VotationCentersList = (props) => {
   const user = useSelector(store => store.user);
@@ -22,9 +17,6 @@ export const VotationCentersList = (props) => {
   return (
     <List 
       {...props}
-      actions={<CreateButton />}
-      title='Centros de votación'
-      pagination={<ListPagination />}
       bulkActionButtons={false}
     >
       <Datagrid>

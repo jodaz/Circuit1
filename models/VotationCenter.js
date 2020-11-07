@@ -15,7 +15,10 @@ const VotationCenterSchema = new mongoose.Schema({
 VotationCenterSchema.set('toJSON', {
   virtuals: true,
   versionKey:false,
-  transform: function (doc, ret) {   delete ret._id  }
+  transform: function (doc, ret) { 
+    console.log(ret);
+    delete ret._id
+  }
 });
 
 module.exports = mongoose.model('VotationCenter', VotationCenterSchema);

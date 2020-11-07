@@ -1,18 +1,15 @@
 import { put, takeEvery, call } from 'redux-saga/effects';
-import { setUser, setErrors } from './actions';
+import { setUser, setErrors, clearErrors } from './actions';
 import { login, fetchUser, logout } from './fetch';
 
 function* loginSaga(action) {
-  try {
-    const res = yield call(() => login(action.payload));
-    if (res.status >= 200 && res.status <= 300) {
-      yield put(setUser(res));
-    } else {
-      console.log(res);
-      throw res;
-    }
-  } catch (error) {
-    yield put(setErrors(error));
+  const { response, error } = yield call(() => login(action.payload));
+
+  if (response) {
+    yield put(setUser(response))
+    yield put(clearErrors());
+  } else {
+    yield put(setErrors(error))
   }
 }
 
