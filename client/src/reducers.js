@@ -32,7 +32,6 @@ export const userReducer = (state = usersInitialState, action) => {
       const { user, token } = action.payload;
 
       setAuthToken(token);
-      localStorage.setItem('votingApp', token);
 
       return { ...state, user: user, isAuth: true };
       break;

@@ -11,13 +11,7 @@ const config = {
   apiURL: `http://201.249.178.134:4000/api`
 }
 
-const settings = {
-  headers: {
-    Authorization: !isEmpty(localStorage.votingApp) ? localStorage.votingApp : ''
-  }
-};
-
-export const dataProvider = jsonapiClient(config.apiURL, settings);
+export const dataProvider = jsonapiClient(config.apiURL);
 
 export const store = createAdminStore({
   dataProvider,

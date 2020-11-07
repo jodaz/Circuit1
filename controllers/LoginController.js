@@ -27,7 +27,7 @@ const login = async (req, res) => {
             jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
               if (err) throw err;
 
-              res.json({ success: true, token: `Bearer ${token}`, user: model });
+              res.json({ success: true, token: token, user: model });
             });
           } else {
             errors.password = 'Contraseña incorrecta.';

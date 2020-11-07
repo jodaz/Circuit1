@@ -19,22 +19,15 @@ function App() {
   useEffect(() => {
     let route = window.location.pathname;
 
-    if (!isEmpty(localStorage.votingApp)) {
+    if (!isEmpty(localStorage.token)) {
       route = (route == '/login' || route == '/') ? '/home' : route;
-
-      setAuthToken(localStorage.votingApp);
     } else {
       route = '/login';
     }
-
-    history.push(route);
-
   }, []);
 
   return (
-    <Provider
-      store={store}
-    >
+    <Provider store={store}>
       <Admin
         dataProvider={dataProvider}
         i18nProvider={i18nProvider}
