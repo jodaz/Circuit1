@@ -8,6 +8,10 @@ import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
 import { isEmpty } from './utils';
 
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
+import PeopleIcon from '@material-ui/icons/People';
+
 import {
   store,
   dataProvider,
@@ -40,18 +44,21 @@ function App() {
       >
         <Resource 
           name="users"
+          icon={AccountCircleIcon}
           list={UsersList}
           create={UsersCreate}
           options={{ label: 'Usuarios' }}
         />
         <Resource 
           name="votation-centers"
+          icon={CenterFocusStrongIcon}
           list={VotationCentersList}
           create={VotationCentersCreate}
           options={{ label: 'Centros de votación' }}
         />
         <Resource 
           name="voters" 
+          icon={PeopleIcon} 
           list={VotersList}
           options={{ label: 'Votantes' }}
         />
