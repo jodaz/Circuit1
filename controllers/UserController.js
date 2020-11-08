@@ -46,4 +46,13 @@ const destroy = async (req, res) => {
     .catch(err => res.status(400).json(err.message));
 };
 
-module.exports = { get, store, update, destroy };
+const current = async (req, res) => {
+  const { id } = req.query;
+  console.log(id);
+
+  await Model.findOne({ '_id': id})
+    .then(model => res.json(model))
+    .catch(err => res.status(400).json(err.message));
+}
+
+module.exports = { current, get, store, update, destroy };

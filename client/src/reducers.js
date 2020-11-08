@@ -29,11 +29,7 @@ export const errorsReducer = (state = errorsInitialState, action) => {
 export const userReducer = (state = usersInitialState, action) => {
   switch(action.type) {
     case 'SET_USER': 
-      const { user, token } = action.payload;
-
-      setAuthToken(token);
-
-      return { ...state, user: user, isAuth: true };
+      return { ...state, user: action.payload, isAuth: true };
       break;
     case 'LOGOUT':
       return { ...state, ...usersInitialState };

@@ -12,8 +12,9 @@ export const setUser = (user = {}) => ({
   payload: user
 });
 
-export const fetchUser = () => ({
-  type: 'FETCH_USER' 
+export const fetchUser = id => ({
+  type: 'FETCH_USER',
+  payload: id
 });
 
 export const setErrors = (errors = {}) => ({

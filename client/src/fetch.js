@@ -15,6 +15,6 @@ export const logout = () =>
       history.push('/login');
     });
 
-export const fetchUser = () => 
-  axios.get('/user')
+export const fetchUser = id => 
+  axios.get(`${config.apiURL}/users/current?id=${id}`)
     .then(res => res.data);
