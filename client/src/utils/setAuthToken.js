@@ -1,8 +1,8 @@
 const setAuthToken = token => {
   if (token) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('votToken', token);
   } else {
-    localStorage.removeItem('token');
+    localStorage.removeItem('votToken');
   }
 }
 

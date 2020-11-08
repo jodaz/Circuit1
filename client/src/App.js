@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     let route = window.location.pathname;
 
-    if (!isEmpty(localStorage.token)) {
+    if (!isEmpty(localStorage.votToken)) {
       route = (route == '/login' || route == '/') ? '/home' : route;
     } else {
       route = '/login';

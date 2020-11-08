@@ -31,7 +31,7 @@ const login = async (req, res) => {
             });
           } else {
             errors.password = 'Contraseña incorrecta.';
-            return res.status(400).json(errors);
+            return res.status(400).json({ data: errors });
           }
         })
         .catch(err => console.log(err));
