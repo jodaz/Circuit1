@@ -16,7 +16,6 @@ VotationCenterSchema.set('toJSON', {
   virtuals: true,
   versionKey:false,
   transform: function (doc, ret) { 
-    console.log(ret);
     delete ret._id
   }
 });

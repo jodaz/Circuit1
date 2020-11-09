@@ -5,7 +5,8 @@ const get = async (req, res) => {
   const { page, perPage } = req.query;
 
   const limit = parseInt(perPage);
-  const skip = (page == 1) ? 0 : page * perPage;
+  const skip = (page == 1) ? 0 : page * perPage - perPage;
+  const total = await Model.count({});
 
   await Model.find()
     .limit(limit) 
@@ -13,7 +14,7 @@ const get = async (req, res) => {
     .sort({ createdAt: -1 })
     .then(models => {
       res.status(200)
-        .json({ data: models });
+        .json({ data: models, total: total });
     })
     .catch(err => res.status(400).json(err.message));
 };
@@ -48,7 +49,6 @@ const destroy = async (req, res) => {
 
 const current = async (req, res) => {
   const { id } = req.query;
-  console.log(id);
 
   await Model.findOne({ '_id': id})
     .then(model => res.json(model))

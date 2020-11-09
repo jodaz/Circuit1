@@ -2,28 +2,19 @@ const Model = require('../models/VotationCenter');
 const Person = require('../models/Person');
 
 const get = async (req, res) => {
-  const { page } = req.query;
+  const { page, perPage } = req.query;
 
-  const limit = parseInt(page.size);
-  const skip = page.size * page.number;
+  const limit = parseInt(perPage);
+  const skip = (page == 1) ? 0 : page * perPage - perPage;
+  const total = await Model.count({});
 
   await Model.find()
     .limit(limit) 
+    .skip(skip)
     .sort({ createdAt: -1 })
     .then(models => {
-      const data = models.map(model => {
-        const { id, ...rest } = model;
-
-        return ({
-          id: id,
-          attributes: rest._doc
-        });
-      });
-
       res.status(200)
-        .json({
-          data: data
-        });
+        .json({ data: models, total: total });
     })
     .catch(err => res.status(400).json(err.message));
 };
