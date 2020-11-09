@@ -3,6 +3,6 @@ export default {
   headers: {
     'Content-Type': 'application/json'
   },
-  updateMethod: 'PATCH',
+  updateMethod: 'PUT',
   arrayFormat: 'brackets',
 };

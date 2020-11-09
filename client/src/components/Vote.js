@@ -16,7 +16,7 @@ export default function VoteDialog() {
   const [fullName, setFullName] = React.useState('');
   const [personId, setPersonId] = React.useState('');
   const [errors, setErrors] = React.useState({});
-  const user = useSelector(store => store.user);
+  const user = useSelector(store => store.user.user);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,7 +29,7 @@ export default function VoteDialog() {
   const [vote, { loading }] = useMutation({
     type: 'update',
     resource: 'votation-centers',
-    payload: { id: user.id, data: {
+    payload: { id: user.votationCenter.id, data: {
       'full_name': fullName,
       'personId': personId
     }}
@@ -81,13 +81,13 @@ export default function VoteDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            No
+            Cancelar
           </Button>
           <Button onClick={() => {
             vote();
             handleClose();
-          }} color="primary" autoFocus>
-            Nuevo voto
+          }} color="secondary" autoFocus>
+            Registrar
           </Button>
         </DialogActions>
       </Dialog>
