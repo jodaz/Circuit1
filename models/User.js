@@ -4,7 +4,8 @@ const UserSchema = new mongoose.Schema({
   full_name: String,
   login: String,
   password: String,
-  role: String
+  role: String,
+  votationCenter: {type: mongoose.Schema.Types.ObjectId, ref: 'VotationCenter'},
 },
 {
   timestamps: true

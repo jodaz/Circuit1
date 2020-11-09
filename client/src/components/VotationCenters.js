@@ -54,7 +54,7 @@ export const VotationCentersCreate = (props) => {
         <TextInput source="name" label="Nombre" />
         <TextInput source="municipality" label="Municipio" />
         <TextInput source="parish" label="Parroquia" />
-        <SelectInput source="user_id" choices={users} optionText="full_name" optionValue='id'label="Usuario responsable"/>
+        <SelectInput source="user" choices={users} optionText="full_name" optionValue='id'label="Usuario responsable"/>
       </SimpleForm>
     </Create>
   );

@@ -87,7 +87,7 @@ export default function VoteDialog() {
             vote();
             handleClose();
           }} color="primary" autoFocus>
-            Registrar voto
+            Nuevo voto
           </Button>
         </DialogActions>
       </Dialog>

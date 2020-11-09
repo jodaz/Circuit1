@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Admin, Loading, Resource } from 'react-admin';
 import { VotationCentersList, VotationCentersCreate } from './components/VotationCenters';
 import { VotersList } from './components/Voters';
@@ -34,6 +34,7 @@ const theme = createMuiTheme({
 
 function App() {
   const user = useSelector(store => store.user.user);
+  const [role, setRole] = useState();
   const dispatch = useDispatch();
 
   // Check authentication
@@ -47,8 +48,15 @@ function App() {
     } else {
       route = '/login';
     }
+
     history.push(route);
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      setRole(user.role);
+    }  
+  }, [user]);
 
   return (
     <Admin

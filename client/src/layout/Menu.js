@@ -31,6 +31,7 @@ const Menu = ({ resources, onMenuClick }) => {
     </>
   );
 }
+
 const mapStateToProps = state => ({
   resources: getResources(state),
 });

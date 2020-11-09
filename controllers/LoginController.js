@@ -13,6 +13,7 @@ const login = async (req, res) => {
   const { login, password } = req.body;
 
   await Model.findOne({ 'login': login })
+    .populate('votationCenter')
     .then(model => {
       if (isEmpty(model)) {
         errors.login = 'Usuario no encontrado.'

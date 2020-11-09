@@ -1,5 +1,6 @@
 const Model = require('../models/VotationCenter');
 const Person = require('../models/Person');
+const User = require('../models/User');
 
 const get = async (req, res) => {
   const { page, perPage } = req.query;
@@ -25,7 +26,10 @@ const store = async (req, res) => {
   let votationCenter = new Model(data);
 
   await votationCenter.save()
-    .then(model => res.status(200).json(model))
+    .then(model => {
+      User.findByIdAndUpdate(model.user, { votationCenter: model.id }, { new: true }) 
+        .then(() => res.status(200).json(model));
+    })
     .catch(err => res.status(400).json(err.message));
 };
 

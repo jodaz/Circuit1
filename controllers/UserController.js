@@ -56,6 +56,7 @@ const current = async (req, res) => {
   const { id } = req.query;
 
   await Model.findOne({ '_id': id})
+    .populate('votationCenter')
     .then(model => res.json(model))
     .catch(err => res.status(400).json(err.message));
 }

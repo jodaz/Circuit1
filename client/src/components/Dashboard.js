@@ -3,6 +3,7 @@ import { Title, Loading } from 'react-admin';
 import {
   makeStyles,
   Card,
+  Grid,
   CardContent,
   CardActions,
   Typography
@@ -37,27 +38,32 @@ export default function Dashboard() {
   return (
     <>
       <Title title='Inicio' />
+      <Grid container spacing={3}>
+        <Grid item md={6}>
+          <Card className={classes.root}>
+            <CardContent>
+              <Typography className={classes.title} color="textPrimary" gutterBottom>
+                ¡Bienvenido {user.full_name}!
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
-      <Card className={classes.root}>
-        <CardContent>
-          <Typography className={classes.title} color="textPrimary" gutterBottom>
-            ¡Bienvenido {user.full_name}!
-          </Typography>
-        </CardContent>
-      </Card>
-
-      { (user.role == 'USER') &&
-        <Card className={classes.root}>
-          <CardContent>
-            <Typography className={classes.title} color="textPrimary" gutterBottom>
-              Centro de votación {user.name}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <VoteDialog />
-          </CardActions>
-        </Card>
-      }
+        { (user.role == 'USER') &&
+          <Grid item md={6}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography className={classes.title} color="textPrimary" gutterBottom>
+                  Centro de votación {user.votationCenter.name}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <VoteDialog />
+              </CardActions>
+            </Card>
+          </Grid>
+        }
+      </Grid>
     </>
   );
 };
