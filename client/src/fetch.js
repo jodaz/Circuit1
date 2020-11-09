@@ -18,3 +18,8 @@ export const logout = () =>
 export const fetchUser = id => 
   axios.get(`${config.apiURL}/users/current?id=${id}`)
     .then(res => res.data);
+
+export const fetchUsers = () => 
+  axios.get(`${config.apiURL}/users?role=USER`)
+    .then(res => ({ response: res.data }));
+

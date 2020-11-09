@@ -2,13 +2,13 @@ const Model = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const get = async (req, res) => {
-  const { page, perPage } = req.query;
+  const { page, perPage, role } = req.query;
 
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
   const total = await Model.count({});
 
-  await Model.find()
+  await Model.find({ role: role })
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })

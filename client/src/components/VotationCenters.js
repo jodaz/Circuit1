@@ -1,6 +1,9 @@
 import * as React from "react";
+import { useState, useEffect } from 'react';
 import { 
   List, 
+  Loading,
+  SelectInput,
   Datagrid, 
   TextField,
   Create,
@@ -8,6 +11,7 @@ import {
   TextInput,
   DeleteButton
 } from 'react-admin';
+import { fetchUsers } from '../fetch';
 import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 
@@ -31,14 +35,27 @@ export const VotationCentersList = (props) => {
   );
 };
 
-export const VotationCentersCreate = (props) => (
-  <Create {...props} title="Nuevo centro de votación" >
-    <SimpleForm>
-      <TextInput source="name" label="Nombre del UBCH" />
-      <TextInput source="responsible" label="Nombre y apellidos del jefe de UBCH" />
-      <TextInput source="municipality" label="Municipio" />
-      <TextInput source="parish" label="Parroquia" />
-      <TextInput source="responsible_id" label="Cédula" />
-    </SimpleForm>
-  </Create>
-);
+export const VotationCentersCreate = (props) => {
+  const [users, setUsers] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    const { response } = await fetchUsers();
+
+    setUsers(response.data);
+    setLoading(false);
+  }, []);
+
+  if (loading) return <Loading />;
+
+  return (
+    <Create {...props} title="Nuevo centro de votación" >
+      <SimpleForm>
+        <TextInput source="name" label="Nombre" />
+        <TextInput source="municipality" label="Municipio" />
+        <TextInput source="parish" label="Parroquia" />
+        <SelectInput source="user_id" choices={users} optionText="full_name" optionValue='id'label="Usuario responsable"/>
+      </SimpleForm>
+    </Create>
+  );
+};

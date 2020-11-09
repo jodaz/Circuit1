@@ -20,7 +20,7 @@ const get = async (req, res) => {
 };
 
 const store = async (req, res) => {
-  const { ...data } = req.body;
+  const data = req.body;
   
   let votationCenter = new Model(data);
 

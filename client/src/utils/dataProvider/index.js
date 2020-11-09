@@ -85,6 +85,14 @@ export default (apiURL, customSettings = {}) => (type, resource, params) => {
       options.method = 'POST';
       options.data = params;
       break;
+    case GET_MANY: {
+      const query = stringify({
+        'filter[id]': params.ids,
+      }, { arrayFormat: settings.arrayFormat });
+
+      url = `${apiURL}/${resource}?${query}`;
+      break;
+    }
     default:
       throw new NotImplementedError(`Unsupported Data Provider request type ${type}`);
   }
@@ -102,6 +110,7 @@ export default (apiURL, customSettings = {}) => (type, resource, params) => {
 
       switch(type) {
         case GET_LIST: 
+        case GET_MANY:
           return { data: res.data.data.map(item => item), total };
           break;
         case CREATE: 
