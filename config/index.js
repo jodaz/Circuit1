@@ -5,7 +5,7 @@ module.exports = {
   MONGO_URI: `${process.env.MONGO_URI}/${process.env.DB_DATABASE}`,
   APP_PORT: process.env.APP_PORT,
   ADMIN: {
-    full_name: process.env.USERNAME,
+    full_name: process.env.FULL_NAME,
     login: process.env.LOGIN,
     password: process.env.PASSWORD
   },

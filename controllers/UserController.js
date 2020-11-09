@@ -3,12 +3,17 @@ const bcrypt = require('bcrypt');
 
 const get = async (req, res) => {
   const { page, perPage, role } = req.query;
+  const query = {};
+
+  if (role) {
+    query.role = role;
+  }
 
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
   const total = await Model.count({});
 
-  await Model.find({ role: role })
+  await Model.find(query)
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })
