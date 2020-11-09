@@ -7,8 +7,8 @@ function* loginSaga(action) {
   const { response, error } = yield call(() => login(action.payload));
 
   if (response) {
-    const { token } = response;
-    yield put(setUser(response))
+    const { token, user } = response;
+    yield put(setUser(user))
     yield put(clearErrors());
     setAuthToken(token);
     history.push('/home');
