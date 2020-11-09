@@ -2,6 +2,8 @@ import * as React from "react";
 import { 
   List, 
   Datagrid, 
+  SelectInput,
+  PasswordInput,
   TextField,
   Create,
   SimpleForm,
@@ -29,12 +31,21 @@ export const UsersList = (props) => {
   );
 };
 
-export const UsersCreate = (props) => (
-  <Create {...props} title="Nuevo usuario" >
-    <SimpleForm>
-      <TextInput source="full_name" label="Nombre completo" />
-      <TextInput source="login" label="Login" />
-      <TextInput source="password" label="Contraseña" />
-    </SimpleForm>
-  </Create>
-);
+export const UsersCreate = (props) => {
+  const choices = [
+    { id: 'ADMIN', name: 'ADMIN'},
+    { id: 'ANALYST', name: 'ANALYST' },
+    { id: 'USER', name: 'USER' }
+  ];
+
+  return (
+    <Create {...props} title="Nuevo usuario" >
+      <SimpleForm>
+        <TextInput source="full_name" label="Nombre completo" />
+        <TextInput source="login" label="Login" />
+        <PasswordInput source="password" label="Contraseña" />
+        <SelectInput source="role" choices={choices} optionText="name" optionValue='name'label="Rol"/>
+      </SimpleForm>
+    </Create>
+  );
+};

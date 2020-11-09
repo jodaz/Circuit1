@@ -50,8 +50,6 @@ function App() {
     history.push(route);
   }, []);
 
-  if (isEmpty(user)) return <Loading />;
-
   return (
     <Admin
       dataProvider={dataProvider}
@@ -63,7 +61,6 @@ function App() {
       theme={theme}
       title='Vote'
     >
-      { (user.role == 'ADMIN' ) &&
         <Resource 
           name="users"
           icon={<AccountCircleIcon />}
@@ -71,7 +68,6 @@ function App() {
           create={UsersCreate}
           options={{ label: 'Usuarios' }}
         />
-      }
         <Resource 
           name="votation-centers"
           icon={<CenterFocusStrongIcon />}

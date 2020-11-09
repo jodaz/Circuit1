@@ -8,15 +8,6 @@ import isEmpty from 'is-empty';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
 const Menu = ({ resources, onMenuClick }) => {
-  const [role, setRole] = useState('');
-  const user = useSelector(store => store.user.user); 
-
-  useState(() => {
-    if (!isEmpty(user)) {
-      setRole(user.role);
-    }
-  }, [user]);
-
   return (
     <>
       <MenuItemLink
