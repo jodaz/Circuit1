@@ -25,6 +25,8 @@ function* fetchUserSaga(action) {
 function* logoutSaga() {
   yield call(() => logout());
   yield put(setUser());
+  setAuthToken();
+  history.push('/login');
 }
 
 export default function* rootSaga() {

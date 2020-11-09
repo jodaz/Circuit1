@@ -8,7 +8,7 @@ export const login = data =>
     .catch(err => ({ error: err.response.data }));
 
 export const logout = () =>
-  axios.get('/logout')
+  axios.get(`${config.apiURL}/logout`)
     .then(res => {
       // localStorage.removeItem('token');
       setAuthToken();

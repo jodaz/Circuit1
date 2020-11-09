@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-    Button,
-    TextField,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
 } from '@material-ui/core';
 import { useMutation } from 'react-admin';
 import { useSelector } from 'react-redux';

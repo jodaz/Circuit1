@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title } from 'react-admin';
+import { Title, Loading } from 'react-admin';
 import {
   makeStyles,
   Card,
@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import VoteDialog from './Vote';
+import isEmpty from 'is-empty';
 
 const useStyles = makeStyles({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
     transform: 'scale(0.8)',
   },
   title: {
-    fontSize: 14,
+    fontSize: 18,
   },
   pos: {
     marginBottom: 12,
@@ -29,7 +30,9 @@ const useStyles = makeStyles({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const user = useSelector(store => store.user);
+  const user = useSelector(store => store.user.user);
+
+  if (isEmpty(user)) return <Loading /> 
 
   return (
     <>
@@ -38,13 +41,23 @@ export default function Dashboard() {
       <Card className={classes.root}>
         <CardContent>
           <Typography className={classes.title} color="textPrimary" gutterBottom>
-            Centro de votación {user.name}
+            ¡Bienvenido {user.full_name}!
           </Typography>
         </CardContent>
-        <CardActions>
-          <VoteDialog />
-        </CardActions>
       </Card>
+
+      { (user.role == 'USER') &&
+        <Card className={classes.root}>
+          <CardContent>
+            <Typography className={classes.title} color="textPrimary" gutterBottom>
+              Centro de votación {user.name}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <VoteDialog />
+          </CardActions>
+        </Card>
+      }
     </>
   );
 };
