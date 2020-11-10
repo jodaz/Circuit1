@@ -16,7 +16,7 @@ import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 
 export const VotationCentersList = (props) => {
-  const user = useSelector(store => store.user);
+  const user = useSelector(store => store.user.user);
 
   return (
     <List 
@@ -29,7 +29,7 @@ export const VotationCentersList = (props) => {
         <TextField label="Municipio" source="municipality" />
         <TextField label="Parroquia" source="parish" />
         <TextField label="Votos" source="votes" />
-        { !isEmpty(user) && <DeleteButton /> }
+        { (user.role === 'ADMIN') && <DeleteButton /> }
       </Datagrid>
     </List>
   );

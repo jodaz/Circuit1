@@ -49,7 +49,7 @@ export default function Dashboard() {
           </Card>
         </Grid>
 
-        { (user.role == 'USER') &&
+      { (user.role == 'USER' && !isEmpty(user.votationCenter)) &&
           <Grid item md={6}>
             <Card className={classes.root}>
               <CardContent>

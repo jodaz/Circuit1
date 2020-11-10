@@ -14,7 +14,7 @@ import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 
 export const UsersList = (props) => {
-  const user = useSelector(store => store.user);
+  const user = useSelector(store => store.user.user);
 
   return (
     <List 
@@ -25,7 +25,6 @@ export const UsersList = (props) => {
       <Datagrid>
         <TextField source="full_name" label="Nombre completo"/>
         <TextField source="login" label="Login" />
-        { !isEmpty(user) && <DeleteButton /> }
       </Datagrid>
     </List>
   );

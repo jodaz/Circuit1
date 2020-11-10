@@ -57,7 +57,6 @@ export default function Auth(props) {
 
           <Notification />
         </div>
-        <Footer />
       </Container>
     </>
   );

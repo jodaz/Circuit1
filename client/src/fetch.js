@@ -5,7 +5,7 @@ import { config } from './initializers';
 export const login = data => 
   axios.post(config.apiURL+'/login', data)
     .then(res => ({ response: res.data }))
-    .catch(err => ({ error: err.response.data }));
+    .catch(err => ({ error: err.message.data }));
 
 export const logout = () =>
   axios.get(`${config.apiURL}/logout`)

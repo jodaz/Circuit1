@@ -8,7 +8,7 @@ const validateLogin = require('../validation/login');
 const login = async (req, res) => {
   const { errors, isValid } = validateLogin(req.body);
 
-  if (!isValid) return res.status(400).json(errors);
+  if (!isValid) return res.status(400).json({ data: errors });
 
   const { login, password } = req.body;
 
@@ -17,8 +17,9 @@ const login = async (req, res) => {
     .then(model => {
       if (isEmpty(model)) {
         errors.login = 'Usuario no encontrado.'
+
         return res.status(400)
-          .json(errors);
+          .json({ data: errors });
       }
       bcrypt.compare(password, model.password)
         .then(match => {

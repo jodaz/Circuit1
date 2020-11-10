@@ -31,6 +31,33 @@ const theme = createMuiTheme({
     secondary: red 
   }
 });
+const printRole = role => console.log(role);
+
+const resources = rol => ([
+  <Resource 
+    name="votation-centers"
+    icon={<CenterFocusStrongIcon />}
+    list={VotationCentersList}
+    create={rol === 'ADMIN' ? VotationCentersCreate : null}
+    options={{ label: 'Centros de votación' }}
+    key={2}
+  />,
+  <Resource 
+    name="voters" 
+    icon={<PeopleIcon />} 
+    list={VotersList}
+    options={{ label: 'Votantes' }}
+    key={3}
+  />,
+ <Resource 
+    name="users"
+    icon={<AccountCircleIcon />}
+    list={UsersList}
+    create={ rol === 'ADMIN' ? UsersCreate : null}
+    options={{ label: 'Usuarios' }}
+    key={1}
+  />,
+]);
 
 function App() {
   const user = useSelector(store => store.user.user);
@@ -69,26 +96,11 @@ function App() {
       theme={theme}
       title='Vote'
     >
-        <Resource 
-          name="users"
-          icon={<AccountCircleIcon />}
-          list={UsersList}
-          create={UsersCreate}
-          options={{ label: 'Usuarios' }}
-        />
-        <Resource 
-          name="votation-centers"
-          icon={<CenterFocusStrongIcon />}
-          list={VotationCentersList}
-          create={VotationCentersCreate}
-          options={{ label: 'Centros de votación' }}
-        />
-        <Resource 
-          name="voters" 
-          icon={<PeopleIcon />} 
-          list={VotersList}
-          options={{ label: 'Votantes' }}
-        />
+    {
+      isEmpty(role) && role === 'USER'
+        ? <></>
+        : resources(role)
+    }
     </Admin>
   );
 }

@@ -7,7 +7,7 @@ import { fetchUtils } from 'react-admin';
 const i18nProvider = polyglotI18nProvider(() => spanishMessages);
 
 const config = {
-  apiURL: `http://201.249.178.134:4000/api`
+  apiURL: `http://192.168.11.128:4000/api`
 }
 
 export const dataProvider = apiClient(config.apiURL);
