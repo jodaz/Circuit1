@@ -23,3 +23,8 @@ export const fetchUsers = () =>
   axios.get(`${config.apiURL}/users?role=USER`)
     .then(res => ({ response: res.data }));
 
+export const vote = async (id, data) => {
+  await axios.post(`${config.apiURL}/votation-centers/${id}`, data)
+    .then(res => ({ response: res.data }))
+    .catch(error => ({ error: error.message.data }));
+}

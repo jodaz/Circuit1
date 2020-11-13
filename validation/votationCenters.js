@@ -1,10 +1,9 @@
 const validator = require('validator');
 const isEmpty = require('is-empty');
 
-let errors = {};
-
 module.exports = {
   update: (data) => {
+    let errors = {};
     data.full_name = !isEmpty(data.full_name) ? data.full_name : '';
     data.personId = !isEmpty(data.personId) ? data.personId : '';
   

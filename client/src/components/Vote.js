@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   TextField,
@@ -8,32 +8,53 @@ import {
   DialogContentText,
   DialogTitle
 } from '@material-ui/core';
-import { useMutation } from 'react-admin';
+import isEmpty from 'is-empty';
+import { vote } from '../fetch';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function VoteDialog() {
   const [open, setOpen] = React.useState(false);
-  const [fullName, setFullName] = React.useState('');
-  const [personId, setPersonId] = React.useState('');
   const [errors, setErrors] = React.useState({});
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const user = useSelector(store => store.user.user);
 
   const handleClickOpen = () => {
     setOpen(true);
-  };
+    setErrors({});
+    setData({});
+  }
 
   const handleClose = () => {
+    setLoading(false);
     setOpen(false);
+    setErrors({});
+    setData({});
   };
 
-  const [vote, { loading }] = useMutation({
-    type: 'update',
-    resource: 'votation-centers',
-    payload: { id: user.votationCenter.id, data: {
-      'full_name': fullName,
-      'personId': personId
-    }}
-  });
+  const handleData = (e) => {
+    const { name, value } = e.target;
+
+    setData({...data, [name]: value });
+  };
+
+  const handleVote = async () => {
+    const { id } = user.votationCenter;
+
+    setLoading(true);
+
+    const { response, error } = await axios.post(`http://circuitouno.somoscarupano.com.ve/api/votation-centers/${id}`, data)
+      .then(res => ({ response: res.data }))
+      .catch(error => ({ error: error.message.data }));
+
+    if (!isEmpty(error)) {
+      setErrors(error);
+    }
+    if (!isEmpty(response)) {
+      handleClose();
+    }
+  };
 
   return (
     <div>
@@ -55,15 +76,15 @@ export default function VoteDialog() {
           </DialogContentText>
           <TextField
             variant="outlined"
-            error={errors.person_id && true}
+            error={errors.personId && true}
             margin="normal"
             fullWidth
             id="personId"
             label="Cédula de identidad"
             name="personId"
-            onChange={e => setPersonId(e.target.value)}
+            onChange={handleData}
             required
-            helperText={errors.person_id && 'Ingrese la cédula del votante'}
+            helperText={errors.personId && 'Ingrese la cédula del votante'}
           />
           <TextField
             variant="outlined"
@@ -73,20 +94,16 @@ export default function VoteDialog() {
             id="fullName"
             label="Nombre completo"
             name="full_name"
-            onChange={e => setFullName(e.target.value)}
+            onChange={handleData}
             required
             helperText={errors.full_name && 'Ingrese el nombre completo'}
           />
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={() => {
-            vote();
-            handleClose();
-          }} color="secondary" autoFocus>
+          <Button onClick={handleVote} color="secondary" autoFocus>
             Registrar
           </Button>
         </DialogActions>
