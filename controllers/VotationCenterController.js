@@ -1,6 +1,7 @@
 const Model = require('../models/VotationCenter');
 const Person = require('../models/Person');
 const User = require('../models/User');
+const votationCentersValidator = require('../validation/votationCenters');
 
 const get = async (req, res) => {
   const { page, perPage } = req.query;
@@ -36,6 +37,10 @@ const store = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
   const { ...data } = req.body;
+
+  const { errors, isValid } = votationCentersValidator.update(data);
+
+  if (!isValid) return res.status(400).json({ data: errors });
 
   const person = await Person.create(data);
 
