@@ -6,7 +6,7 @@ import {
   VotationCentersCreate
 } from './components/VotationCenters';
 import { VotersList } from './components/Voters';
-import { UsersList, UsersCreate } from './components/Users';
+import { UsersEdit, UsersList, UsersCreate } from './components/Users';
 import Login from './components/Login';
 import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
@@ -42,7 +42,6 @@ const resources = rol => ([
     icon={<CenterFocusStrongIcon />}
     list={VotationCentersList}
     create={rol === 'ADMIN' ? VotationCentersCreate : null}
-    edit={rol === 'ADMIN' ? VotationCentersEdit : null}
     options={{ label: 'Centros de votación' }}
     key={2}
   />,
@@ -58,6 +57,7 @@ const resources = rol => ([
     icon={<AccountCircleIcon />}
     list={UsersList}
     create={ rol === 'ADMIN' ? UsersCreate : null}
+    edit={ rol === 'ADMIN' ? UsersEdit : null}
     options={{ label: 'Usuarios' }}
     key={1}
   />,

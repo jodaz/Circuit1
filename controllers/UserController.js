@@ -20,6 +20,15 @@ const get = async (req, res) => {
     .sort({ createdAt: -1 })
     .then(models => res.status(200).json({ data: models, total: total }))
     .catch(err => res.status(400).json(err.message));
+}
+
+const show = async (req, res) => {
+  const { id } = req.query;
+
+  await Model.findOne(id)
+    .populate('user')
+    .then(model => res.status(200).json(model))
+    .catch(err => res.status(400).json(err.message));
 };
 
 const store = async (req, res) => {
@@ -59,4 +68,4 @@ const current = async (req, res) => {
     .catch(err => res.status(400).json(err.message));
 }
 
-module.exports = { current, get, store, update, destroy };
+module.exports = { show, current, get, store, update, destroy };
