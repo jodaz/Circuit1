@@ -21,6 +21,25 @@ const Title = ({ record }) => {
   return <span>{record ? `${record.name}` : ''}</span>;
 }
 
+const validateVotationCenter = (values) => {
+  const error = {};
+
+  if (!values.name) {
+    error.name = 'Ingrese el nombre del centro de votación';
+  }
+  if (!values.municipality) {
+    error.municipality = 'Ingrese el municipio';
+  }
+  if (!values.parish) {
+    error.parish = 'Ingrese el nombre de la parroquia';
+  }
+  if (!values.user) {
+    error.user = 'Seleccione un usuario responsable del centro.';
+  }
+
+  return error;
+}
+
 export const VotationCentersList = (props) => {
   const user = useSelector(store => store.user.user);
 
@@ -57,7 +76,7 @@ export const VotationCentersCreate = (props) => {
 
   return (
     <Create {...props} title="Nuevo centro de votación" >
-      <SimpleForm>
+      <SimpleForm validate={validateVotationCenter}>
         <TextInput source="name" label="Nombre" />
         <TextInput source="municipality" label="Municipio" />
         <TextInput source="parish" label="Parroquia" />
@@ -84,7 +103,7 @@ export const VotationCentersEdit = (props) => {
 
   return (
     <Edit {...props} title={<Title />}>
-      <SimpleForm>
+      <SimpleForm validate={validateVotationCenter}>
         <TextInput source="name" label="Nombre" />
         <TextInput source="municipality" label="Municipio" />
         <TextInput source="parish" label="Parroquia" />
