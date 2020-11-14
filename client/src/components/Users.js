@@ -52,7 +52,7 @@ export const UsersList = (props) => {
       <Datagrid>
         <TextField source="full_name" label="Nombre completo"/>
         <TextField source="login" label="Login" />
-        <DeleteButton />
+        { (user.role === 'ADMIN') && <DeleteButton /> }
       </Datagrid>
     </List>
   );

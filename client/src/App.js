@@ -57,7 +57,6 @@ const resources = rol => ([
     icon={<AccountCircleIcon />}
     list={UsersList}
     create={ rol === 'ADMIN' ? UsersCreate : null}
-    edit={ rol === 'ADMIN' ? UsersEdit : null}
     options={{ label: 'Usuarios' }}
     key={1}
   />,

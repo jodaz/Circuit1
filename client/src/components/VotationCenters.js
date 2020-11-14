@@ -52,6 +52,7 @@ export const VotationCentersList = (props) => {
       <Datagrid>
         <TextField label="Nombre" source="name" />
         <TextField label="Municipio" source="municipality" />
+        <TextField label="Responsable" source="user.full_name" />
         <TextField label="Parroquia" source="parish" />
         <TextField label="Votos" source="votes" />
         { (user.role === 'ADMIN') && <DeleteButton /> }

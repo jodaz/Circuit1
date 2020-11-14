@@ -12,6 +12,7 @@ const get = async (req, res) => {
   const total = await Model.count({});
 
   await Model.find()
+    .populate('user')
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })
