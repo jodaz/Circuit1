@@ -16,7 +16,8 @@ export const logout = () =>
 
 export const fetchUser = id => 
   axios.get(`${apiURL}/users/current?id=${id}`)
-    .then(res => res.data);
+    .then(res => ({ response: res.data }))
+    .catch(err => ({ error: err.message.data }));
 
 export const fetchUsers = () => 
   axios.get(`${apiURL}/users?role=USER`)

@@ -18,8 +18,17 @@ function* loginSaga(action) {
 }
 
 function* fetchUserSaga(action) {
-  const user = yield call(() => fetchUser(action.payload));
-  yield put(setUser(user));
+  const { response, error } = yield call(() => fetchUser(action.payload));
+
+  if (response) {
+    const { user } = response;
+    yield put(setUser(user));
+    yield put(clearErrors());
+  } else {
+    setAuthToken();
+    yield put(setErrors(error));
+    history.push('/login');
+  }
 }
 
 function* logoutSaga() {
