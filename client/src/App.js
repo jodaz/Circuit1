@@ -31,7 +31,6 @@ const theme = createMuiTheme({
     secondary: red 
   }
 });
-const printRole = role => console.log(role);
 
 const resources = rol => ([
   <Resource 

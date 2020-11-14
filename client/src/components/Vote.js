@@ -11,6 +11,7 @@ import {
 import isEmpty from 'is-empty';
 import { vote } from '../fetch';
 import { useSelector } from 'react-redux';
+import { apiURL } from '../config';
 import axios from 'axios';
 
 export default function VoteDialog() {
@@ -44,7 +45,7 @@ export default function VoteDialog() {
 
     setLoading(true);
 
-    const { response, error } = await axios.post(`http://circuitouno.somoscarupano.com.ve/api/votation-centers/${id}`, data)
+    const { response, error } = await axios.post(`${apiURL}/votation-centers/${id}`, data)
       .then(res => ({ response: res.data }))
       .catch(error => ({ error: error.message.data }));
 
