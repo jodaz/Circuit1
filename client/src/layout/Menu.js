@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { MenuItemLink, getResources, Responsive  } from 'react-admin';
 import Badge from '@material-ui/core/Badge';
@@ -7,7 +7,15 @@ import isEmpty from 'is-empty';
 
 import DashboardIcon from '@material-ui/icons/Dashboard';
 
-const Menu = ({ resources, onMenuClick }) => {
+const Menu = ({ user, resources, onMenuClick, ...rest }) => {
+  const [role, setRole] = useState('');
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      setRole(user.role)
+    }
+  }, [user])
+
   return (
     <>
       <MenuItemLink
@@ -18,6 +26,7 @@ const Menu = ({ resources, onMenuClick }) => {
       />
 
       {
+        (role !== '' && role !== 'USER') && 
         resources.map(resource => (
           <MenuItemLink
             key={resource.name}
@@ -34,6 +43,7 @@ const Menu = ({ resources, onMenuClick }) => {
 
 const mapStateToProps = state => ({
   resources: getResources(state),
+  user: state.user.user
 });
 
 export default withRouter(connect(mapStateToProps)(Menu));

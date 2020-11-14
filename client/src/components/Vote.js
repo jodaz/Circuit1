@@ -12,6 +12,7 @@ import isEmpty from 'is-empty';
 import { vote } from '../fetch';
 import { useSelector } from 'react-redux';
 import { apiURL } from '../config';
+import { useNotify } from 'react-admin';
 import axios from 'axios';
 
 export default function VoteDialog() {
@@ -20,6 +21,7 @@ export default function VoteDialog() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const user = useSelector(store => store.user.user);
+  const notify = useNotify();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,7 +38,7 @@ export default function VoteDialog() {
 
   const handleData = (e) => {
     const { name, value } = e.target;
-
+ 
     setData({...data, [name]: value });
   };
 
@@ -54,6 +56,7 @@ export default function VoteDialog() {
     }
     if (!isEmpty(response)) {
       handleClose();
+      notify('¡Votante registrado!');
     }
   };
 
@@ -85,7 +88,7 @@ export default function VoteDialog() {
             name="personId"
             onChange={handleData}
             required
-            helperText={errors.personId && 'Ingrese la cédula del votante'}
+            helperText={errors.personId && errors.personId}
           />
           <TextField
             variant="outlined"
@@ -97,7 +100,7 @@ export default function VoteDialog() {
             name="full_name"
             onChange={handleData}
             required
-            helperText={errors.full_name && 'Ingrese el nombre completo'}
+            helperText={errors.full_name && errors.full_name}
           />
         </DialogContent>
         <DialogActions>

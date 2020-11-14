@@ -2,6 +2,7 @@ const Model = require('../models/VotationCenter');
 const Person = require('../models/Person');
 const User = require('../models/User');
 const validator = require('../validation/votationCenters');
+const isEmpty = require('is-empty');
 
 const get = async (req, res) => {
   const { page, perPage } = req.query;

@@ -89,6 +89,10 @@ function App() {
     }  
   }, [user]);
 
+  if (role === 'USER' && window.location.pathname !== '/home') {
+    history.push('/home');
+  }
+
   return (
     <Admin
       dataProvider={dataProvider}

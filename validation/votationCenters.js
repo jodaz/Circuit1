@@ -4,6 +4,7 @@ const isEmpty = require('is-empty');
 module.exports = {
   vote: (data) => {
     let errors = {};
+
     data.full_name = !isEmpty(data.full_name) ? data.full_name : '';
     data.personId = !isEmpty(data.personId) ? data.personId : '';
   
@@ -11,7 +12,10 @@ module.exports = {
       errors.full_name = 'Ingrese el nombre del votante';
     }
     if (validator.isEmpty(data.personId)) {
-      errors.personId = 'Ingrese su contraseña';
+      errors.personId = 'Ingrese la cédula del votante';
+    }
+    if (!validator.isByteLength(data.personId, { min: 6, max: 9 })) {
+      errors.personId = 'La cédula debe ser entre 6 y 9 dígitos';
     }
   
     return {
@@ -21,6 +25,7 @@ module.exports = {
   },
   update: (data) => {
     let errors = {};
+
     data.name = !isEmpty(data.name) ? data.name : '';
     data.municipality = !isEmpty(data.municipality) ? data.municipality : '';
     data.parish = !isEmpty(data.parish) ? data.parish : '';
