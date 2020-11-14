@@ -7,6 +7,7 @@ const get = async (req, res) => {
 
   if (role) {
     query.role = role;
+    query.votationCenter = null;
   }
 
   const limit = parseInt(perPage);
@@ -17,10 +18,7 @@ const get = async (req, res) => {
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })
-    .then(models => {
-      res.status(200)
-        .json({ data: models, total: total });
-    })
+    .then(models => res.status(200).json({ data: models, total: total }))
     .catch(err => res.status(400).json(err.message));
 };
 

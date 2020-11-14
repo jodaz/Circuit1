@@ -21,8 +21,7 @@ function* fetchUserSaga(action) {
   const { response, error } = yield call(() => fetchUser(action.payload));
 
   if (response) {
-    const { user } = response;
-    yield put(setUser(user));
+    yield put(setUser(response));
     yield put(clearErrors());
   } else {
     setAuthToken();

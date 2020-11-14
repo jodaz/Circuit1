@@ -10,6 +10,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Auth from './Auth';
 import { login } from '../actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { setErrors } from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -36,6 +37,7 @@ const Login = () => {
     const { name, value } = e.target;
 
     setData({...data, [name]: value });
+    dispatch(setErrors({...errors, [name]: ''}));
   }
 
   return (

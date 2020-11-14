@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Admin, Loading, Resource } from 'react-admin';
-import { VotationCentersList, VotationCentersCreate } from './components/VotationCenters';
+import {
+  VotationCentersEdit,
+  VotationCentersList,
+  VotationCentersCreate
+} from './components/VotationCenters';
 import { VotersList } from './components/Voters';
 import { UsersList, UsersCreate } from './components/Users';
 import Login from './components/Login';
@@ -38,6 +42,7 @@ const resources = rol => ([
     icon={<CenterFocusStrongIcon />}
     list={VotationCentersList}
     create={rol === 'ADMIN' ? VotationCentersCreate : null}
+    edit={rol === 'ADMIN' ? VotationCentersEdit : null}
     options={{ label: 'Centros de votación' }}
     key={2}
   />,

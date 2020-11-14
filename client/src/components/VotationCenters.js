@@ -3,17 +3,23 @@ import { useState, useEffect } from 'react';
 import { 
   List, 
   Loading,
+  Edit,
   SelectInput,
   Datagrid, 
   TextField,
   Create,
   SimpleForm,
   TextInput,
+  EditButton,
   DeleteButton
 } from 'react-admin';
 import { fetchUsers } from '../fetch';
 import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
+
+const Title = ({ record }) => {
+  return <span>{record ? `${record.name}` : ''}</span>;
+}
 
 export const VotationCentersList = (props) => {
   const user = useSelector(store => store.user.user);
@@ -30,6 +36,7 @@ export const VotationCentersList = (props) => {
         <TextField label="Parroquia" source="parish" />
         <TextField label="Votos" source="votes" />
         { (user.role === 'ADMIN') && <DeleteButton /> }
+        { (user.role === 'ADMIN') && <EditButton /> }
       </Datagrid>
     </List>
   );
@@ -54,8 +61,41 @@ export const VotationCentersCreate = (props) => {
         <TextInput source="name" label="Nombre" />
         <TextInput source="municipality" label="Municipio" />
         <TextInput source="parish" label="Parroquia" />
-        <SelectInput source="user" choices={users} optionText="full_name" optionValue='id'label="Usuario responsable"/>
+        <SelectInput source="user" choices={users} optionText="full_name" optionValue='id' label="Usuario responsable"/>
       </SimpleForm>
     </Create>
   );
 };
+
+export const VotationCentersEdit = (props) => {
+  const [users, setUsers] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    const { response } = await fetchUsers();
+
+    setUsers(response.data);
+    setLoading(false);
+  }, []);
+
+  const optionRenderer = choice => `${choice.full_name}`;
+
+  if (loading) return <Loading />;
+
+  return (
+    <Edit {...props} title={<Title />}>
+      <SimpleForm>
+        <TextInput source="name" label="Nombre" />
+        <TextInput source="municipality" label="Municipio" />
+        <TextInput source="parish" label="Parroquia" />
+        <SelectInput
+          source="user"
+          choices={users}
+          optionText="full_name"
+          optionValue='id'
+          label="Usuario responsable"
+        />
+      </SimpleForm>
+    </Edit>
+  );
+}

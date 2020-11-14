@@ -1,7 +1,7 @@
 const Model = require('../models/VotationCenter');
 const Person = require('../models/Person');
 const User = require('../models/User');
-const votationCentersValidator = require('../validation/votationCenters');
+const validator = require('../validation/votationCenters');
 
 const get = async (req, res) => {
   const { page, perPage } = req.query;
@@ -21,6 +21,15 @@ const get = async (req, res) => {
     .catch(err => res.status(400).json(err.message));
 };
 
+const show = async (req, res) => {
+  const { id } = req.query;
+
+  await Model.findOne(id)
+    .populate('user')
+    .then(model => res.status(200).json(model))
+    .catch(err => res.status(400).json(err.message));
+}
+
 const store = async (req, res) => {
   const data = req.body;
   
@@ -34,11 +43,11 @@ const store = async (req, res) => {
     .catch(err => res.status(400).json(err.message));
 };
 
-const update = async (req, res) => {
+const vote = async (req, res) => {
   const { id } = req.params;
   const { ...data } = req.body;
 
-  const { errors, isValid } = votationCentersValidator.update(data);
+  const { errors, isValid } = validator.vote(data);
 
   if (!isValid) return res.status(400).json({ data: errors });
 
@@ -54,6 +63,37 @@ const update = async (req, res) => {
     }).catch(err => res.status(400).json(err.message));
 };
 
+const update = async (req, res) => {
+  const { id } = req.query;
+  const {
+    name,
+    parish,
+    user,
+    municipality
+  } = req.body;
+
+  const data = {
+    'name': name,
+    'parish': parish,
+    'user': user,
+    'municipality': municipality
+  };
+
+  const { errors, isValid } = validator.update(data);
+
+  if (!isValid) return res.status(400).json({ data: errors });
+
+  const model = await Model.findOne(id);
+
+  await User.findByIdAndUpdate(model.user, { votationCenter: null }, { new: true });
+  await Model.findByIdAndUpdate(id, data, {new: true})
+    .then(model => {
+      User.findByIdAndUpdate(model.user, { votationCenter: model.id }, { new: true }) 
+        .then(() => res.status(200).json(model));
+      return res.status(200).json(model);
+    }).catch(err => res.status(400).json(err.message));
+};
+
 const destroy = async (req, res) => {
   const { id } = req.params;
 
@@ -64,4 +104,4 @@ const destroy = async (req, res) => {
     .catch(err => res.status(400).json(err.message));
 };
 
-module.exports = { get, store, update, destroy };
+module.exports = { update, show, get, store, vote, destroy };

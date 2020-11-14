@@ -45,7 +45,7 @@ export default function VoteDialog() {
 
     setLoading(true);
 
-    const { response, error } = await axios.post(`${apiURL}/votation-centers/${id}`, data)
+    const { response, error } = await axios.post(`${apiURL}/votation-centers/vote/${id}`, data)
       .then(res => ({ response: res.data }))
       .catch(error => ({ error: error.message.data }));
 
