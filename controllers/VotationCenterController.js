@@ -51,6 +51,15 @@ const vote = async (req, res) => {
 
   if (!isValid) return res.status(400).json({ data: errors });
 
+  await Person.find({ 'personId': data.personId })
+    .then(model => {
+      if (!isEmpty(model)) {
+        return res.status(400).json({
+          data: { 'personId': 'El votante se encuentra registrado.'  }
+        });
+      }
+    });
+
   const person = await Person.create(data);
 
   await Model.findByIdAndUpdate(id, {$inc: { 'votes': 1} }, {new: true})
