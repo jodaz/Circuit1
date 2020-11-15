@@ -26,7 +26,7 @@ const login = async (req, res) => {
           if (match) {
             const payload = { id: model.id };
 
-            jwt.sign(payload, SECRET, { expiresIn: 1000 }, (err, token) => {
+            jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
               if (err) throw err;
 
               res.json({ success: true, token: token, user: model });
