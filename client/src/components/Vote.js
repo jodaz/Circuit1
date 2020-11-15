@@ -90,18 +90,6 @@ export default function VoteDialog() {
             required
             helperText={errors.personId && errors.personId}
           />
-          <TextField
-            variant="outlined"
-            error={errors.full_name && true}
-            margin="normal"
-            fullWidth
-            id="fullName"
-            label="Nombre completo"
-            name="full_name"
-            onChange={handleData}
-            required
-            helperText={errors.full_name && errors.full_name}
-          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

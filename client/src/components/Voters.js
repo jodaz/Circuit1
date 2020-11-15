@@ -19,7 +19,6 @@ export const VotersList = (props) => {
         bulkActionButtons={false}
       >
         <Datagrid>
-          <TextField label="Nombre" source="full_name" />
           <TextField label="Cédula" source="personId" />
         </Datagrid>
       </List>

@@ -5,12 +5,8 @@ module.exports = {
   vote: (data) => {
     let errors = {};
 
-    data.full_name = !isEmpty(data.full_name) ? data.full_name : '';
     data.personId = !isEmpty(data.personId) ? data.personId : '';
   
-    if (validator.isEmpty(data.full_name)) {
-      errors.full_name = 'Ingrese el nombre del votante';
-    }
     if (validator.isEmpty(data.personId)) {
       errors.personId = 'Ingrese la cédula del votante';
     }
