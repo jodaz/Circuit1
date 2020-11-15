@@ -39,13 +39,13 @@ export default function VoteDialog() {
   const handleData = (e) => {
     const { name, value } = e.target;
  
+    setLoading(false);
     setData({...data, [name]: value });
   };
 
   const handleVote = async () => {
-    const { id } = user.votationCenter;
-
     setLoading(true);
+    const { id } = user.votationCenter;
 
     const { response, error } = await axios.post(`${apiURL}/votation-centers/vote/${id}`, data)
       .then(res => ({ response: res.data }))
@@ -107,7 +107,7 @@ export default function VoteDialog() {
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleVote} color="secondary" autoFocus>
+          <Button onClick={handleVote} color="secondary" autoFocus disabled={loading}>
             Registrar
           </Button>
         </DialogActions>
