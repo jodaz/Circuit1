@@ -24,9 +24,9 @@ const get = async (req, res) => {
 };
 
 const show = async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.params;
 
-  await Model.findOne(id)
+  await Model.findOne({ '_id': id })
     .populate('user')
     .then(model => res.status(200).json(model))
     .catch(err => res.status(400).json(err.message));
@@ -75,32 +75,41 @@ const vote = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { id } = req.query;
-  const {
+  const { id } = req.params;
+
+  const data = {
     name,
     parish,
     user,
     municipality
   } = req.body;
 
-  const data = {
-    'name': name,
-    'parish': parish,
-    'user': user,
-    'municipality': municipality
-  };
-
   const { errors, isValid } = validator.update(data);
 
   if (!isValid) return res.status(400).json({ data: errors });
 
-  const model = await Model.findOne(id);
+  const model = await Model.findOne({ '_id': id }).then(model => model);
+  
+  if (model.user) {
+    // Remove votation center from user
+    await User.findByIdAndUpdate(
+      { '_id' : model.user }, 
+      { votationCenter: null }, 
+      { new: true },
+      (err, doc) => doc
+    );
+  }
 
-  await User.findByIdAndUpdate(model.user, { votationCenter: null }, { new: true });
-  await Model.findByIdAndUpdate(id, data, {new: true})
-    .then(model => {
-      User.findByIdAndUpdate(model.user, { votationCenter: model.id }, { new: true }) 
-        .then(() => res.status(200).json(model));
+  await model.update(data, {new: true})
+    .then(() => {
+      // Update users collection
+      User.findByIdAndUpdate(
+        { '_id': data.user },
+        { votationCenter: model.id },
+        { new: true },
+        (err, doc) => doc
+      );
+
       return res.status(200).json(model);
     }).catch(err => res.status(400).json(err.message));
 };
