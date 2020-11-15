@@ -3,7 +3,7 @@ const UserController = require('../../controllers/UserController');
 
 router.get('/', UserController.get);
 router.get('/:id', UserController.update);
-router.get('/current', UserController.current);
+router.post('/current', UserController.current);
 router.post('/', UserController.store);
 router.put('/:id', UserController.update);
 router.delete('/:id', UserController.destroy);

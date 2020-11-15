@@ -15,7 +15,7 @@ export const logout = () =>
     });
 
 export const fetchUser = id => 
-  axios.get(`${apiURL}/users/current?id=${id}`)
+  axios.post(`${apiURL}/users/current`, { 'id': id })
     .then(res => ({ response: res.data }))
     .catch(err => ({ error: err.message.data }));
 

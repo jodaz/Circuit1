@@ -60,7 +60,7 @@ const destroy = async (req, res) => {
 };
 
 const current = async (req, res) => {
-  const { id } = req.query;
+  const { id } = req.body;
 
   await Model.findOne({ '_id': id})
     .populate('votationCenter')

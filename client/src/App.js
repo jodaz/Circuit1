@@ -72,7 +72,7 @@ function App() {
     let route = window.location.pathname;
 
     if (!isEmpty(localStorage.votToken)) {
-      const { id } = jwt_decode(localStorage.votToken);
+      const { exp, id } = jwt_decode(localStorage.votToken);
       dispatch(fetchUser(id));
       route = (route == '/login' || route == '/') ? '/home' : route;
     } else {

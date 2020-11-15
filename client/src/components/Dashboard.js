@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Title, Loading } from 'react-admin';
 import {
   makeStyles,
@@ -29,9 +29,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Dashboard() {
-  const classes = useStyles();
+function Dashboard() {
   const user = useSelector(store => store.user.user);
+  const classes = useStyles();
 
   if (isEmpty(user)) return <Loading /> 
 
@@ -43,8 +43,7 @@ export default function Dashboard() {
           <Card className={classes.root}>
             <CardContent>
               <Typography className={classes.title} color="textPrimary" gutterBottom>
-                ¡Bienvenido {user.full_name}!
-              </Typography>
+                ¡Bienvenido {user.full_name}!  </Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -55,6 +54,9 @@ export default function Dashboard() {
               <CardContent>
                 <Typography className={classes.title} color="textPrimary" gutterBottom>
                   Centro de votación {user.votationCenter.name}
+                </Typography>
+                <Typography className={classes.title} color="textPrimary" gutterBottom>
+                  Votos registrados {user.votationCenter.votes}
                 </Typography>
               </CardContent>
               <CardActions>
@@ -67,3 +69,5 @@ export default function Dashboard() {
     </>
   );
 };
+
+export default Dashboard;
