@@ -10,6 +10,7 @@ const get = async (req, res) => {
 
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
+  const total = await Model.count(useFilter(filter));
 
   await Model.find(useFilter(filter))
     .populate('user')
@@ -17,8 +18,6 @@ const get = async (req, res) => {
     .skip(skip)
     .sort({ createdAt: -1 })
     .then(async (models) => {
-      const total = await models.length;
-
       res.status(200)
         .json({ data: models, total: total });
     })
