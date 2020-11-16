@@ -13,6 +13,7 @@ import { updateVotes } from '../actions';
 import { useSelector } from 'react-redux';
 import VoteDialog from './Vote';
 import isEmpty from 'is-empty';
+import Analytics from './Analytics';
 
 const useStyles = makeStyles({
   welcome: {
@@ -93,6 +94,9 @@ function Dashboard() {
               </div>
             </Card>
           </Grid>
+        }
+        { (user.role !== 'USER' && !isEmpty(user)) &&
+         <Analytics />
         }
       </Grid>
     </>
