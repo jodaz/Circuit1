@@ -9,9 +9,12 @@ import {
   DialogContentText,
   DialogTitle
 } from '@material-ui/core';
+import BlockIcon from '@material-ui/icons/Block';
+import DoneIcon from '@material-ui/icons/Done';
 import isEmpty from 'is-empty';
+import { updateVotes } from '../actions';
 import { vote } from '../fetch';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { apiURL } from '../config';
 import { useNotify } from 'react-admin';
 import axios from 'axios';
@@ -22,6 +25,7 @@ export default function VoteDialog() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const user = useSelector(store => store.user.user);
+  const dispatch = useDispatch();
   const notify = useNotify();
 
   const handleClickOpen = () => {
@@ -40,7 +44,6 @@ export default function VoteDialog() {
   const handleData = (e) => {
     const { name, value } = e.target;
  
-    setLoading(false);
     setData({...data, [name]: value });
   };
 
@@ -54,12 +57,13 @@ export default function VoteDialog() {
 
     if (!isEmpty(error)) {
       setErrors(error);
-      setLoading(false);
     }
     if (!isEmpty(response)) {
       handleClose();
+      dispatch(updateVotes(response.votes));
       notify('¡Votante registrado!');
     }
+    setLoading(false);
   };
 
   return (
@@ -86,7 +90,7 @@ export default function VoteDialog() {
           <DialogContent>
             { (!loading) ? (<>
             <DialogContentText id="alert-dialog-description">
-              Esta acción no puede ser deshecha.
+              Esta acción no puede deshacerse.
             </DialogContentText>
             <TextField
               variant="outlined"
@@ -106,11 +110,24 @@ export default function VoteDialog() {
           </DialogContent>
           { !(loading) &&
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
+              <Button
+                onClick={handleClose}
+                color="secondary"
+                startIcon={<BlockIcon />}
+                fullWidth
+              >
                 Cancelar
               </Button>
-              <Button onClick={handleVote} color="secondary" autoFocus disabled={loading}>
-                Registrar
+              <Button
+                onClick={handleVote}
+                variant="contained"
+                color="primary"
+                autoFocus
+                disabled={loading}
+                startIcon={<DoneIcon />}
+                fullWidth
+              >
+                Guardar
               </Button>
             </DialogActions>
           }

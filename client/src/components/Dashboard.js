@@ -9,6 +9,7 @@ import {
   CardActions,
   Typography
 } from '@material-ui/core';
+import { updateVotes } from '../actions';
 import { useSelector } from 'react-redux';
 import VoteDialog from './Vote';
 import isEmpty from 'is-empty';
@@ -46,10 +47,10 @@ const useStyles = makeStyles({
 });
 
 function Dashboard() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const user = useSelector(store => store.user.user);
+  const votes = useSelector(store => store.commons.votes);
   const classes = useStyles();
-
-  if (isEmpty(user)) return <Loading /> 
 
   return (
     <>
@@ -59,7 +60,7 @@ function Dashboard() {
           <Card className={classes.welcome}>
             <CardContent>
               <Typography className={classes.title} color="textPrimary" variant="subtitle1" gutterBottom>
-                ¡Bienvenido a CircuitoUnoApp (C1A)!
+                ¡Bienvenido(a) a CircuitoUnoApp (C1A)!
               </Typography>
               <Typography color="textSecondary" variant="subtitle2">
                 Aplicación de contabilización de votos en tiempo real.
@@ -84,7 +85,7 @@ function Dashboard() {
               </CardContent>
               <div className={classes.cover}>
                 <Typography variant="h2">
-                  {user.votationCenter.votes}
+                  {votes}
                 </Typography>
                 <Typography variant="subtitle1" color="textSecondary">
                   Votos

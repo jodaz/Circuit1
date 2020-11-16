@@ -69,7 +69,7 @@ const vote = async (req, res) => {
           model.people.push(person);
           model.save();
           
-          return res.status(200).json(model)
+          return res.status(200).json(model);
         }).catch(err => res.status(400).json(err.message));
     });
 };
