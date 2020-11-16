@@ -3,6 +3,7 @@ import {
   Button,
   TextField,
   Dialog,
+  CircularProgress,
   DialogActions,
   DialogContent,
   DialogContentText,
@@ -53,6 +54,7 @@ export default function VoteDialog() {
 
     if (!isEmpty(error)) {
       setErrors(error);
+      setLoading(false);
     }
     if (!isEmpty(response)) {
       handleClose();
@@ -61,8 +63,13 @@ export default function VoteDialog() {
   };
 
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}
+        fullWidth={true}
+      >
         Registrar voto
       </Button>
       <Dialog
@@ -71,35 +78,43 @@ export default function VoteDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"¿Está seguro de registrar un voto?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Ingrese los datos del votante.
-
-            Esta acción no puede ser deshecha.
-          </DialogContentText>
-          <TextField
-            variant="outlined"
-            error={errors.personId && true}
-            margin="normal"
-            fullWidth
-            id="personId"
-            label="Cédula de identidad"
-            name="personId"
-            onChange={handleData}
-            required
-            helperText={errors.personId && errors.personId}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleVote} color="secondary" autoFocus disabled={loading}>
-            Registrar
-          </Button>
-        </DialogActions>
+          { (!loading) &&
+            <DialogTitle id="alert-dialog-title">
+              {"¿Está seguro de registrar un voto?"}
+            </DialogTitle>
+          }
+          <DialogContent>
+            { (!loading) ? (<>
+            <DialogContentText id="alert-dialog-description">
+              Esta acción no puede ser deshecha.
+            </DialogContentText>
+            <TextField
+              variant="outlined"
+              error={errors.personId && true}
+              margin="normal"
+              fullWidth
+              id="personId"
+              label="Cédula de identidad"
+              name="personId"
+              onChange={handleData}
+              required
+              helperText={errors.personId && errors.personId}
+            />
+          </>)
+          : <CircularProgress />
+          }
+          </DialogContent>
+          { !(loading) &&
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancelar
+              </Button>
+              <Button onClick={handleVote} color="secondary" autoFocus disabled={loading}>
+                Registrar
+              </Button>
+            </DialogActions>
+          }
       </Dialog>
-    </div>
+    </>
   );
 }
