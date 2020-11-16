@@ -3,22 +3,15 @@ const Person = require('../models/Person');
 const User = require('../models/User');
 const validator = require('../validation/votationCenters');
 const isEmpty = require('is-empty');
+const useFilter = require('../utils/filter');
 
 const get = async (req, res) => {
   const { page, perPage, filter } = req.query;
-  const query = {};
 
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
 
-  if (filter) {
-    query.name = { 
-      $regex: `.*${filter.name}.*`,
-      $options: 'i'
-    }; 
-  }
-
-  await Model.find(query)
+  await Model.find(useFilter(filter))
     .populate('user')
     .limit(limit) 
     .skip(skip)

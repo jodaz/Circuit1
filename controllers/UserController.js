@@ -1,9 +1,10 @@
 const Model = require('../models/User');
 const bcrypt = require('bcrypt');
+const useFilter = require('../utils/filter');
 
 const get = async (req, res) => {
   const { page, perPage, filter, role, sort } = req.query;
-  const query = {};
+  let query = {};
 
   if (role) {
     query.role = role;
@@ -11,9 +12,7 @@ const get = async (req, res) => {
   }
 
   if (filter) {
-    query.full_name = { 
-      $regex: `.*${filter.full_name}.*`
-    }; 
+    query = {...query, ...useFilter(filter) };
   }
 
   const limit = parseInt(perPage);
