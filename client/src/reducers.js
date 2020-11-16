@@ -49,6 +49,9 @@ export const commonsReducer = (state = commonsInitialState, action) => {
       const { payload } = action;
       return { ...state, ...payload };
       break;
+    case 'CLEAR_COMMONS':
+      return { ...commonsInitialState };
+      break;
     default:
       return state;
   }

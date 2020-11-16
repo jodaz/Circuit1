@@ -1,5 +1,5 @@
 import { put, takeEvery, fork, take, call, takeLatest } from 'redux-saga/effects';
-import { updateVotes, setUser, setErrors, clearErrors } from './actions';
+import { clearCommons, updateVotes, setUser, setErrors, clearErrors } from './actions';
 import { login, fetchUser, logout } from './fetch';
 import { setAuthToken, history } from './utils';
 
@@ -8,6 +8,11 @@ function* loginSaga(action) {
 
   if (response) {
     const { token, user } = response;
+
+    if (user.role === 'USER') {
+      yield put(updateVotes(user.votationCenter.votes));
+    }
+
     yield put(setUser(user))
     yield put(clearErrors());
     setAuthToken(token);
@@ -38,6 +43,8 @@ function* fetchUserSaga(action) {
 function* logoutSaga() {
   yield call(() => logout());
   yield put(setUser());
+  yield put(clearErrors());
+  yield put(clearCommons());
   setAuthToken();
   history.push('/login');
 }

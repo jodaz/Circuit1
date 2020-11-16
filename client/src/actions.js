@@ -30,3 +30,7 @@ export const updateVotes = (votes) => ({
   type: 'UPDATE_VOTES',
   payload: votes
 });
+
+export const clearCommons = () => ({
+  type: 'CLEAR_COMMONS'
+})
