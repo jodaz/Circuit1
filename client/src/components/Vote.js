@@ -13,7 +13,6 @@ import BlockIcon from '@material-ui/icons/Block';
 import DoneIcon from '@material-ui/icons/Done';
 import isEmpty from 'is-empty';
 import { updateVotes } from '../actions';
-import { vote } from '../fetch';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiURL } from '../config';
 import { useNotify } from 'react-admin';
