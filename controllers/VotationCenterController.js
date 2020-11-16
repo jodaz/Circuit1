@@ -5,18 +5,27 @@ const validator = require('../validation/votationCenters');
 const isEmpty = require('is-empty');
 
 const get = async (req, res) => {
-  const { page, perPage } = req.query;
+  const { page, perPage, filter } = req.query;
+  const query = {};
 
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
-  const total = await Model.count({});
 
-  await Model.find()
+  if (filter) {
+    query.name = { 
+      $regex: `.*${filter.name}.*`,
+      $options: 'i'
+    }; 
+  }
+
+  await Model.find(query)
     .populate('user')
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })
-    .then(models => {
+    .then(async (models) => {
+      const total = await models.length;
+
       res.status(200)
         .json({ data: models, total: total });
     })

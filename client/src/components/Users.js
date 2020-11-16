@@ -12,6 +12,7 @@ import {
   TextInput,
   DeleteButton
 } from 'react-admin';
+import Filter from './Filter';
 import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 
@@ -48,6 +49,7 @@ export const UsersList = (props) => {
       {...props}
       title="Usuarios"
       bulkActionButtons={false}
+      filters={<Filter defaultfilter='full_name' />}
     >
       <Datagrid>
         <TextField source="full_name" label="Nombre completo"/>

@@ -16,6 +16,7 @@ import {
 import { fetchUsers } from '../fetch';
 import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
+import Filter from './Filter';
 
 const Title = ({ record }) => {
   return <span>{record ? `${record.name}` : ''}</span>;
@@ -25,13 +26,13 @@ const validateVotationCenter = (values) => {
   const error = {};
 
   if (!values.name) {
-    error.name = 'Ingrese el nombre del centro de votación';
+    error.name = 'Ingrese el name del centro de votación';
   }
   if (!values.municipality) {
     error.municipality = 'Ingrese el municipio';
   }
   if (!values.parish) {
-    error.parish = 'Ingrese el nombre de la parroquia';
+    error.parish = 'Ingrese el name de la parroquia';
   }
   if (!values.user) {
     error.user = 'Seleccione un usuario responsable del centro.';
@@ -48,6 +49,7 @@ export const VotationCentersList = (props) => {
       {...props}
       title="Centros de votación"
       bulkActionButtons={false}
+      filters={<Filter defaultfilter='name' />}
     >
       <Datagrid>
         <TextField label="Nombre" source="name" />
