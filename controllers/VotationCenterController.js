@@ -3,20 +3,22 @@ const Person = require('../models/Person');
 const User = require('../models/User');
 const validator = require('../validation/votationCenters');
 const isEmpty = require('is-empty');
+const useFilter = require('../utils/filter');
 
 const get = async (req, res) => {
-  const { page, perPage } = req.query;
+  const { page, perPage, filter } = req.query;
 
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
-  const total = await Model.count({});
 
-  await Model.find()
+  await Model.find(useFilter(filter))
     .populate('user')
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })
-    .then(models => {
+    .then(async (models) => {
+      const total = await models.length;
+
       res.status(200)
         .json({ data: models, total: total });
     })
