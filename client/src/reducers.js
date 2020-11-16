@@ -10,6 +10,10 @@ const errorsInitialState = {
   notification: null
 };
 
+const commonsInitialState = {
+  votes: 0
+};
+
 export const errorsReducer = (state = errorsInitialState, action) => {
   switch(action.type) {
     case 'SET_FORM_ERRORS':
@@ -39,16 +43,17 @@ export const userReducer = (state = usersInitialState, action) => {
   }
 }
 
-export const voterReducer = (previousState = {}, action) => {
+export const commonsReducer = (state = commonsInitialState, action) => {
   switch(action.type) {
-    case 'SET_VOTER': 
-      return { ...action.payload };
+    case 'UPDATE_COMMONS': 
+      const { payload } = action;
+      return { ...state, ...payload };
       break;
-    case 'CLEAR_VOTER':
-      return {};
+    case 'CLEAR_COMMONS':
+      return { ...commonsInitialState };
       break;
     default:
-      return previousState;
+      return state;
   }
 }
 

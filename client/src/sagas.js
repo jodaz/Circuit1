@@ -1,5 +1,5 @@
-import { put, takeEvery, call } from 'redux-saga/effects';
-import { setUser, setErrors, clearErrors } from './actions';
+import { put, takeEvery, fork, take, call, takeLatest } from 'redux-saga/effects';
+import { clearCommons, updateVotes, setUser, setErrors, clearErrors } from './actions';
 import { login, fetchUser, logout } from './fetch';
 import { setAuthToken, history } from './utils';
 
@@ -8,6 +8,11 @@ function* loginSaga(action) {
 
   if (response) {
     const { token, user } = response;
+
+    if (user.role === 'USER') {
+      yield put(updateVotes(user.votationCenter.votes));
+    }
+
     yield put(setUser(user))
     yield put(clearErrors());
     setAuthToken(token);
@@ -22,6 +27,11 @@ function* fetchUserSaga(action) {
 
   if (response) {
     yield put(setUser(response));
+
+    if (response.role === 'USER') {
+      yield put(updateVotes(response.votationCenter.votes));
+    }
+
     yield put(clearErrors());
   } else {
     setAuthToken();
@@ -33,12 +43,24 @@ function* fetchUserSaga(action) {
 function* logoutSaga() {
   yield call(() => logout());
   yield put(setUser());
+  yield put(clearErrors());
+  yield put(clearCommons());
   setAuthToken();
   history.push('/login');
 }
 
+function* updateVotesSaga(action) {
+  yield put({
+    type: 'UPDATE_COMMONS',
+    payload: {
+      votes: action.payload
+    }
+  });
+}
+
 export default function* rootSaga() {
   yield takeEvery('FETCH_USER', fetchUserSaga);
+  yield takeLatest('UPDATE_VOTES', updateVotesSaga);
   yield takeEvery('LOGIN', loginSaga);
   yield takeEvery('LOGOUT', logoutSaga);
 }
