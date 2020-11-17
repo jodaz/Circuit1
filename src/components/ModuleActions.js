@@ -17,15 +17,11 @@ const ModuleActions = props => {
     ...rest
   } = props;
   const {
-    currentSort,
     resource,
     displayedFilters,
     filterValues,
-    hasCreate,
     basePath,
-    selectedIds,
     showFilter,
-    total,
   } = useListContext();
 
   return (

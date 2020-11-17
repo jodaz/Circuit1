@@ -14,7 +14,6 @@ import {
 import Actions from './Actions';
 import ModuleActions from './ModuleActions';
 import { fetchUsers } from '../fetch';
-import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 import Filter from './Filter';
 
@@ -64,7 +63,7 @@ export const VotationCentersList = (props) => {
         <TextField label="Votos" source="votes" />
         {
           (user.role === 'ADMIN') &&
-          <Actions {...props} role={user.role} /> 
+          <Actions {...props} shouldEdit /> 
         }
       </Datagrid>
     </List>
