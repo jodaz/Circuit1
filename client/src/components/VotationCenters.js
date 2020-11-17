@@ -64,7 +64,7 @@ export const VotationCentersList = (props) => {
         <TextField label="Votos" source="votes" />
         {
           (user.role === 'ADMIN') &&
-          <Actions record={props.record} role={user.role} /> 
+          <Actions {...props} role={user.role} /> 
         }
       </Datagrid>
     </List>

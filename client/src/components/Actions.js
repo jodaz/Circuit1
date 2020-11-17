@@ -22,7 +22,8 @@ const ITEM_HEIGHT = 48;
 const ref =  React.createRef();
 
 const MenuActions = props => {
-  const { record, role } = props;
+  const redirect = useRedirect();
+  const { basePath, record, role } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -59,9 +60,9 @@ const MenuActions = props => {
         <ButtonMenu
           label='Editar'
           icon={< EditIcon />}
-          onClick={
-            (e) => {
-              handleClose();
+          onClick={() => {
+            redirect(basePath + '/' + record.id);
+            handleClose();
           }}
           ref={ref}
         />
