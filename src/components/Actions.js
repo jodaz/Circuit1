@@ -31,7 +31,6 @@ const MenuActions = props => {
   const [deleteOne, {
     data,
     loaded,
-    loading,
     error
   }] = useDelete(resource, record.id);
 
