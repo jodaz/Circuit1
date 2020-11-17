@@ -41,6 +41,7 @@ const resources = rol => ([
     name="votation-centers"
     icon={<CenterFocusStrongIcon />}
     list={VotationCentersList}
+    edit={rol === 'ADMIN' ? VotationCentersEdit : null}
     create={rol === 'ADMIN' ? VotationCentersCreate : null}
     options={{ label: 'Centros de votación' }}
     key={2}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Notification, Title } from 'react-admin';
+import GradeIcon from '@material-ui/icons/Grade';
 import {
   Avatar,
   Container,
@@ -48,9 +49,13 @@ export default function Auth(props) {
 
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
+            <GradeIcon /> 
           </Avatar>
           <Typography component="h1" variant="h5">
             {title} 
+          </Typography>
+          <Typography component="subtitle1" variant="body2" >
+            C1A
           </Typography>
 
           {children}

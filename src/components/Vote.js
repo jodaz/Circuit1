@@ -3,14 +3,17 @@ import {
   Button,
   TextField,
   Dialog,
+  CircularProgress,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle
 } from '@material-ui/core';
+import BlockIcon from '@material-ui/icons/Block';
+import DoneIcon from '@material-ui/icons/Done';
 import isEmpty from 'is-empty';
-import { vote } from '../fetch';
-import { useSelector } from 'react-redux';
+import { updateVotes } from '../actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { apiURL } from '../config';
 import { useNotify } from 'react-admin';
 import axios from 'axios';
@@ -21,6 +24,7 @@ export default function VoteDialog() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const user = useSelector(store => store.user.user);
+  const dispatch = useDispatch();
   const notify = useNotify();
 
   const handleClickOpen = () => {
@@ -39,7 +43,6 @@ export default function VoteDialog() {
   const handleData = (e) => {
     const { name, value } = e.target;
  
-    setLoading(false);
     setData({...data, [name]: value });
   };
 
@@ -56,13 +59,20 @@ export default function VoteDialog() {
     }
     if (!isEmpty(response)) {
       handleClose();
+      dispatch(updateVotes(response.votes));
       notify('¡Votante registrado!');
     }
+    setLoading(false);
   };
 
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}
+        fullWidth={true}
+      >
         Registrar voto
       </Button>
       <Dialog
@@ -71,47 +81,56 @@ export default function VoteDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"¿Está seguro de registrar un voto?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Ingrese los datos del votante.
-
-            Esta acción no puede ser deshecha.
-          </DialogContentText>
-          <TextField
-            variant="outlined"
-            error={errors.personId && true}
-            margin="normal"
-            fullWidth
-            id="personId"
-            label="Cédula de identidad"
-            name="personId"
-            onChange={handleData}
-            required
-            helperText={errors.personId && errors.personId}
-          />
-          <TextField
-            variant="outlined"
-            error={errors.full_name && true}
-            margin="normal"
-            fullWidth
-            id="fullName"
-            label="Nombre completo"
-            name="full_name"
-            onChange={handleData}
-            required
-            helperText={errors.full_name && errors.full_name}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancelar
-          </Button>
-          <Button onClick={handleVote} color="secondary" autoFocus disabled={loading}>
-            Registrar
-          </Button>
-        </DialogActions>
+          { (!loading) &&
+            <DialogTitle id="alert-dialog-title">
+              {"¿Está seguro de registrar un voto?"}
+            </DialogTitle>
+          }
+          <DialogContent>
+            { (!loading) ? (<>
+            <DialogContentText id="alert-dialog-description">
+              Esta acción no puede deshacerse.
+            </DialogContentText>
+            <TextField
+              variant="outlined"
+              error={errors.personId && true}
+              margin="normal"
+              fullWidth
+              id="personId"
+              label="Cédula de identidad"
+              name="personId"
+              onChange={handleData}
+              required
+              helperText={errors.personId && errors.personId}
+            />
+          </>)
+          : <CircularProgress />
+          }
+          </DialogContent>
+          { !(loading) &&
+            <DialogActions>
+              <Button
+                onClick={handleClose}
+                color="secondary"
+                startIcon={<BlockIcon />}
+                fullWidth
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleVote}
+                variant="contained"
+                color="primary"
+                autoFocus
+                disabled={loading}
+                startIcon={<DoneIcon />}
+                fullWidth
+              >
+                Guardar
+              </Button>
+            </DialogActions>
+          }
       </Dialog>
-    </div>
+    </>
   );
 }

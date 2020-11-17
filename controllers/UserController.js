@@ -1,24 +1,33 @@
 const Model = require('../models/User');
 const bcrypt = require('bcrypt');
+const useFilter = require('../utils/filter');
 
 const get = async (req, res) => {
-  const { page, perPage, role } = req.query;
-  const query = {};
+  const { page, perPage, filter, role, sort } = req.query;
+  let query = {};
 
   if (role) {
     query.role = role;
     query.votationCenter = null;
   }
 
+  if (filter) {
+    query = {...query, ...useFilter(filter) };
+  }
+
   const limit = parseInt(perPage);
   const skip = (page == 1) ? 0 : page * perPage - perPage;
-  const total = await Model.count({});
+  const total = await Model.count(useFilter(filter));
 
   await Model.find(query)
+    .populate('VotationCenter')
     .limit(limit) 
     .skip(skip)
     .sort({ createdAt: -1 })
-    .then(models => res.status(200).json({ data: models, total: total }))
+    .then(async (models) => {
+
+      res.status(200).json({ data: models, total: total });
+    })
     .catch(err => res.status(400).json(err.message));
 }
 

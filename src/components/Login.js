@@ -41,7 +41,7 @@ const Login = () => {
   }
 
   return (
-    <Auth title='Inicio de sesión'>
+    <Auth title='Iniciar sesión'>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
@@ -71,9 +71,10 @@ const Login = () => {
         <Button
           type="submit"
           variant="contained"
-          color="primary"
+          color='secondary'
           className={classes.submit}
           startIcon={<ExitToAppIcon />}  
+          fullWidth
         >
           Acceder
         </Button>
