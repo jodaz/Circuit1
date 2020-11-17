@@ -13,6 +13,7 @@ import {
   DeleteButton
 } from 'react-admin';
 import Filter from './Filter';
+import ModuleActions from './ModuleActions';
 import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 
@@ -48,6 +49,11 @@ export const UsersList = (props) => {
     <List 
       {...props}
       title="Usuarios"
+      actions={
+        <ModuleActions
+          shouldCreate={(user.role === 'ADMIN')}
+        />
+      }
       bulkActionButtons={false}
       filters={<Filter defaultfilter='full_name' />}
     >
