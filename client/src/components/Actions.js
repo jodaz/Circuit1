@@ -1,9 +1,8 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
-  useMutation,
   useNotify,
-  useUpdate,
   useDelete,
+  useRefresh,
   useRedirect,
 } from 'react-admin';
 import ButtonMenu from './ButtonMenu';
@@ -22,18 +21,32 @@ const ITEM_HEIGHT = 48;
 const ref =  React.createRef();
 
 const MenuActions = props => {
+  const refresh = useRefresh();
   const redirect = useRedirect();
-  const { basePath, record, role } = props;
+  const notify = useNotify();
+  const { resource, basePath, record, role } = props;
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [deleteOne, {
+    data,
+    loaded,
+    loading,
+    error
+  }] = useDelete(resource, record.id);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  useEffect(async () => {
+    if (loaded) {
+      await notify(data.message);
+      await refresh();
+    }
+  }, [loaded]);
+
+  if (error) return notify('Ha ocurrido un error');
+
+  const handleClick = (e) => setAnchorEl(e.currentTarget);
+
+  const handleClose = () => setAnchorEl(null);
 
   return (
     <div>
@@ -71,6 +84,7 @@ const MenuActions = props => {
           icon={<DeleteIcon />}
           onClick={
             (e) => {
+              deleteOne();
               handleClose();
           }}
           ref={ref}

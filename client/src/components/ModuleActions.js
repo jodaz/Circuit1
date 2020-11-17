@@ -37,7 +37,7 @@ const ModuleActions = props => {
         filterValues,
         context: 'button',
       })}
-      {shouldCreate && <CreateButton basePath={basePath}/>}
+      {shouldCreate && <CreateButton label="Agregar" basePath={basePath}/>}
     </TopToolbar>
   );
 };
