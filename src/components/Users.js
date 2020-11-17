@@ -3,17 +3,16 @@ import {
   List, 
   Datagrid, 
   Edit,
-  EditButton,
   SelectInput,
   PasswordInput,
   TextField,
   Create,
   SimpleForm,
-  TextInput,
-  DeleteButton
+  TextInput
 } from 'react-admin';
+import Actions from './Actions';
 import Filter from './Filter';
-import { isEmpty } from '../utils';
+import ModuleActions from './ModuleActions';
 import { useSelector } from 'react-redux';
 
 const choices = [
@@ -48,13 +47,21 @@ export const UsersList = (props) => {
     <List 
       {...props}
       title="Usuarios"
+      actions={
+        <ModuleActions
+          shouldCreate={(user.role === 'ADMIN')}
+        />
+      }
       bulkActionButtons={false}
       filters={<Filter defaultfilter='full_name' />}
     >
       <Datagrid>
         <TextField source="full_name" label="Nombre completo"/>
         <TextField source="login" label="Login" />
-        { (user.role === 'ADMIN') && <DeleteButton /> }
+        {
+          (user.role === 'ADMIN') &&
+          <Actions {...props} /> 
+        }
       </Datagrid>
     </List>
   );

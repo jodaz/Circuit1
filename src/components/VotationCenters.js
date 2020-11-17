@@ -10,11 +10,10 @@ import {
   Create,
   SimpleForm,
   TextInput,
-  EditButton,
-  DeleteButton
 } from 'react-admin';
+import Actions from './Actions';
+import ModuleActions from './ModuleActions';
 import { fetchUsers } from '../fetch';
-import { isEmpty } from '../utils';
 import { useSelector } from 'react-redux';
 import Filter from './Filter';
 
@@ -49,6 +48,11 @@ export const VotationCentersList = (props) => {
       {...props}
       title="Centros de votación"
       bulkActionButtons={false}
+      actions={
+        <ModuleActions
+          shouldCreate={(user.role === 'ADMIN')}
+        />
+      }
       filters={<Filter defaultfilter='name' />}
     >
       <Datagrid>
@@ -57,8 +61,10 @@ export const VotationCentersList = (props) => {
         <TextField label="Responsable" source="user.full_name" />
         <TextField label="Parroquia" source="parish" />
         <TextField label="Votos" source="votes" />
-        { (user.role === 'ADMIN') && <DeleteButton /> }
-        { (user.role === 'ADMIN') && <EditButton /> }
+        {
+          (user.role === 'ADMIN') &&
+          <Actions {...props} shouldEdit /> 
+        }
       </Datagrid>
     </List>
   );

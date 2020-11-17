@@ -11,19 +11,17 @@ const VotersPagination = props => <Pagination rowsPerPageOptions={[10, 25, 50, 1
 
 export const VotersList = (props) => {
   return (
-    <>
-      <List 
-        {...props}
-        actions={null}
-        title='Votantes'
-        pagination={<VotersPagination />}
-        bulkActionButtons={false}
-        filters={<Filter defaultfilter='personId'/>}
-      >
-        <Datagrid>
-          <TextField label="Cédula" source="personId" />
-        </Datagrid>
-      </List>
-    </>
+    <List 
+      {...props}
+      actions={null}
+      title='Votantes'
+      pagination={<VotersPagination />}
+      bulkActionButtons={false}
+      filters={<Filter defaultfilter='personId'/>}
+    >
+      <Datagrid>
+        <TextField label="Cédula" source="personId" />
+      </Datagrid>
+    </List>
   );
 };
