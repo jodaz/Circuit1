@@ -60,7 +60,7 @@ export default function VoteDialog() {
     if (!isEmpty(response)) {
       handleClose();
       dispatch(updateVotes(response.votes));
-      notify('¡Votante registrado!');
+      notify('¡Votos enviados!');
     }
     setLoading(false);
   };
@@ -83,7 +83,7 @@ export default function VoteDialog() {
       >
           { (!loading) &&
             <DialogTitle id="alert-dialog-title">
-              {"¿Está seguro de registrar un voto?"}
+              {"¿Está seguro de enviar un corte?"}
             </DialogTitle>
           }
           <DialogContent>
@@ -93,15 +93,15 @@ export default function VoteDialog() {
             </DialogContentText>
             <TextField
               variant="outlined"
-              error={errors.personId && true}
+              error={errors.votes && true}
               margin="normal"
+              type="number"
               fullWidth
-              id="personId"
-              label="Cédula de identidad"
-              name="personId"
+              label="Votos"
+              name="votes"
               onChange={handleData}
               required
-              helperText={errors.personId && errors.personId}
+              helperText={errors.votes && errors.votes}
             />
           </>)
           : <CircularProgress />

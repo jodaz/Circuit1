@@ -5,8 +5,7 @@ const VotationCenterSchema = new mongoose.Schema({
   municipality: String,
   parish: String,
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  votes: { type: Number, default: 0},
-  people: [{type: mongoose.Schema.Types.ObjectId, ref: 'Person'}]
+  votes: { type: Number, default: 0}
 },
 {
   timestamps: true
