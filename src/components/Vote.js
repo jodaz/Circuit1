@@ -73,7 +73,7 @@ export default function VoteDialog() {
         onClick={handleClickOpen}
         fullWidth={true}
       >
-        Registrar voto
+        Nuevo corte
       </Button>
       <Dialog
         open={open}
@@ -100,7 +100,11 @@ export default function VoteDialog() {
               label="Votos"
               name="votes"
               onChange={handleData}
+              defaultValue={1}
               required
+              inputProps={{
+                min: "1",
+              }}
               helperText={errors.votes && errors.votes}
             />
           </>)

@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   makeStyles,
-  useTheme,
   CircularProgress,
   Card,
-  CardHeader,
   Grid,
   CardContent,
-  CardActions,
   Typography
 } from '@material-ui/core';
 import { apiURL } from '../config';
 import axios from 'axios';
-import { updateVotes } from '../actions';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
