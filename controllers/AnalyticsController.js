@@ -1,18 +1,25 @@
-const Voter = require('../models/Person');
 const VotationCenter = require('../models/VotationCenter');
 
-const basic = async (req, res) =>{ 
-  const voters = await Voter.count({});
-  const centers = await VotationCenter.count({});
+const basic = async (req, res) => { 
+  const project = await VotationCenter.aggregate([
+    { 
+      "$group": {
+        "_id": null,
+        "totalVotes": { "$sum": "$votes" },
+        "totalCenters": { "$sum": 1 }
+      }
+    }
+  ]);
+  const { totalVotes, totalCenters } = project[0];
 
   return res.json({
-    'voters': {
-      'name': 'Votantes totales',
-      'total': voters
+    'votes': {
+      'name': 'Votos totales',
+      'total': totalVotes
     },
     'centers': {
       'name': 'Centros de votación',
-      'total': centers
+      'total': totalCenters
     }
   });
 };

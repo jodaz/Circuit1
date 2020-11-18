@@ -1,8 +1,6 @@
 const Model = require('../models/VotationCenter');
-const Person = require('../models/Person');
 const User = require('../models/User');
 const validator = require('../validation/votationCenters');
-const isEmpty = require('is-empty');
 const useFilter = require('../utils/filter');
 
 const get = async (req, res) => {
@@ -54,25 +52,9 @@ const vote = async (req, res) => {
 
   if (!isValid) return res.status(400).json({ data: errors });
 
-  await Person.find({ 'personId': data.personId })
-    .then(async (model) => {
-      if (!isEmpty(model)) {
-        return res.status(400).json({
-          data: { 'personId': 'El votante se encuentra registrado.'  }
-        });
-      }
-
-      const person = await Person.create(data);
-
-      await Model.findByIdAndUpdate(id, {$inc: { 'votes': 1} }, {new: true})
-        .then(model => {
-
-          model.people.push(person);
-          model.save();
-          
-          return res.status(200).json(model);
-        }).catch(err => res.status(400).json(err.message));
-    });
+  await Model.findByIdAndUpdate(id, {$inc: { 'votes': data.votes } }, {new: true})
+    .then(model => res.status(200).json(model))
+    .catch(err => res.status(400).json(err.message));
 };
 
 const update = async (req, res) => {

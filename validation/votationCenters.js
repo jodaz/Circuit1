@@ -5,13 +5,10 @@ module.exports = {
   vote: (data) => {
     let errors = {};
 
-    data.personId = !isEmpty(data.personId) ? data.personId : '';
+    data.votes = !isEmpty(data.votes) ? data.votes : '';
   
-    if (validator.isEmpty(data.personId)) {
-      errors.personId = 'Ingrese la cédula del votante';
-    }
-    if (!validator.isByteLength(data.personId, { min: 6, max: 9 })) {
-      errors.personId = 'La cédula debe ser entre 6 y 9 dígitos';
+    if (validator.isEmpty(data.votes)) {
+      errors.votes = 'Ingrese el número de votos recolectados';
     }
   
     return {
