@@ -5,7 +5,6 @@ import {
   VotationCentersList,
   VotationCentersCreate
 } from './components/VotationCenters';
-import { VotersList } from './components/Voters';
 import { UsersEdit, UsersList, UsersCreate } from './components/Users';
 import Login from './components/Login';
 import { customRoutes } from './utils';
@@ -20,7 +19,6 @@ import Layout from './layout';
 import { createMuiTheme } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
-import PeopleIcon from '@material-ui/icons/People';
 
 import {
   store,
@@ -45,13 +43,6 @@ const resources = rol => ([
     create={rol === 'ADMIN' ? VotationCentersCreate : null}
     options={{ label: 'Centros de votación' }}
     key={2}
-  />,
-  <Resource 
-    name="voters" 
-    icon={<PeopleIcon />} 
-    list={VotersList}
-    options={{ label: 'Votantes' }}
-    key={3}
   />,
  <Resource 
     name="users"

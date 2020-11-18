@@ -65,7 +65,7 @@ function Analytics() {
   }, []);
 
   return (<>
-    <LoadingCards classes={classes} loading={isLoading} data={data.voters} />
+    <LoadingCards classes={classes} loading={isLoading} data={data.votes} />
     <LoadingCards classes={classes} loading={isLoading} data={data.centers} />
   </>);
 };
