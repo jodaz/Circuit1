@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  full_name: String,
-  login: String,
-  password: String,
-  role: String,
+  full_name: { type: String, required: true },
+  login: { type: String, required: true },
+  password: { type: String, required: true },
+  role: { type: String, required: true },
   votationCenter: {type: mongoose.Schema.Types.ObjectId, ref: 'VotationCenter'},
 },
 {

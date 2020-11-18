@@ -5,9 +5,11 @@ import {
   Loading,
   Edit,
   SelectInput,
+  NumberField,
   Datagrid, 
   TextField,
   Create,
+  NumberInput,
   SimpleForm,
   TextInput,
 } from 'react-admin';
@@ -36,6 +38,9 @@ const validateVotationCenter = (values) => {
   if (!values.user) {
     error.user = 'Seleccione un usuario responsable del centro.';
   }
+  if (!values.electors) {
+    error.electors = 'Ingrese el número de electores esperados.';
+  }
 
   return error;
 }
@@ -58,9 +63,10 @@ export const VotationCentersList = (props) => {
       <Datagrid>
         <TextField label="Nombre" source="name" />
         <TextField label="Municipio" source="municipality" />
-        <TextField label="Responsable" source="user.full_name" />
         <TextField label="Parroquia" source="parish" />
         <TextField label="Votos" source="votes" />
+        <NumberField label="Electores" source="electors" />
+        <TextField label="Responsable" source="user.full_name" />
         {
           (user.role === 'ADMIN') &&
           <Actions {...props} shouldEdit /> 
@@ -85,11 +91,18 @@ export const VotationCentersCreate = (props) => {
 
   return (
     <Create {...props} title="Nuevo centro de votación" >
-      <SimpleForm validate={validateVotationCenter}>
+      <SimpleForm validate={validateVotationCenter} redirect='list' >
         <TextInput source="name" label="Nombre" />
         <TextInput source="municipality" label="Municipio" />
         <TextInput source="parish" label="Parroquia" />
-        <SelectInput source="user" choices={users} optionText="full_name" optionValue='id' label="Usuario responsable"/>
+        <NumberInput source='electors' label="Electores" min={1}/>
+        <SelectInput
+          source="user"
+          choices={users}
+          optionText="full_name"
+          optionValue='id'
+          label="Usuario responsable"
+        />
       </SimpleForm>
     </Create>
   );
@@ -106,8 +119,6 @@ export const VotationCentersEdit = (props) => {
     setLoading(false);
   }, []);
 
-  const optionRenderer = choice => `${choice.full_name}`;
-
   if (loading) return <Loading />;
 
   return (
@@ -116,12 +127,14 @@ export const VotationCentersEdit = (props) => {
         <TextInput source="name" label="Nombre" />
         <TextInput source="municipality" label="Municipio" />
         <TextInput source="parish" label="Parroquia" />
+        <NumberInput source='electors' label="Electores" min={1}/>
         <SelectInput
           source="user"
           choices={users}
           optionText="full_name"
           optionValue='id'
           label="Usuario responsable"
+          initialValue={'user'}
         />
       </SimpleForm>
     </Edit>

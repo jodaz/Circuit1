@@ -1,7 +1,7 @@
-const Model = require('./models/User');
+const Model = require('../models/User');
 const bcrypt = require('bcrypt');
-const { ADMIN } = require('./config');
-const db = require('./config/db');
+const { ADMIN } = require('../config');
+const db = require('../config/db');
 
 db.start();
 
@@ -19,6 +19,6 @@ async function seedDB() {
     .then(() => console.log("Admin user created"));
 
   db.close();
-} 
+};
 
 seedDB();

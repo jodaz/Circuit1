@@ -33,7 +33,7 @@ module.exports = {
     if (validator.isEmpty(data.parish)) {
       errors.parish = 'Ingrese la parroquia';
     }
-    if (validator.isEmpty(data.user)) {
+    if (validator.isEmpty(data.user.id)) {
       errors.user = 'Seleccione el responsable';
     }
     if (validator.isEmpty(data.municipality)) {
