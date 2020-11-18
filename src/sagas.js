@@ -1,4 +1,4 @@
-import { put, takeEvery, fork, take, call, takeLatest } from 'redux-saga/effects';
+import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
 import { clearCommons, updateVotes, setUser, setErrors, clearErrors } from './actions';
 import { login, fetchUser, logout } from './fetch';
 import { setAuthToken, history } from './utils';

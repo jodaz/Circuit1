@@ -1,5 +1,3 @@
-import { setAuthToken } from './utils';
-
 const usersInitialState = {
   user: {},
   isAuth: false

@@ -18,4 +18,3 @@ export {
   i18nProvider,
   history
 }
-
