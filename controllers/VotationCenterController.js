@@ -3,6 +3,7 @@ const User = require('../models/User');
 const validator = require('../validation/votationCenters');
 const useFilter = require('../utils/filter');
 const bcrypt = require('bcrypt');
+const isEmpty = require('is-empty');
 
 const get = async (req, res) => {
   const { page, perPage, filter } = req.query;
@@ -34,6 +35,17 @@ const show = async (req, res) => {
 
 const store = async (req, res) => {
   const { login, full_name, password, ...rest } = req.body;
+
+  await User.find({ 'login': login })
+    .then(model => {
+      if (!isEmpty(model)) {
+        return res.status(400).json({
+          'errors': {
+            'login': 'Este nombre de usuario ya existe.'
+          }
+        });
+      }
+    });
 
   const hash = await bcrypt.hash(password, 10);
   let user = await User.create({
