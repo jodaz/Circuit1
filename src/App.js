@@ -14,7 +14,7 @@ import { fetchUser } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'is-empty';
 // Theming & Icons
-import { red, pink } from '@material-ui/core/colors';
+import { deepPurple, pink } from '@material-ui/core/colors';
 import Layout from './layout';
 import { createMuiTheme } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -29,8 +29,7 @@ import {
 
 const theme = createMuiTheme({
   palette: {
-    primary: pink,
-    secondary: red 
+    primary: pink
   }
 });
 
