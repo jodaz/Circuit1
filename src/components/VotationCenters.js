@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { 
   List, 
   Loading,
+  PasswordInput,
   Edit,
   SelectInput,
   NumberField,
@@ -45,6 +46,34 @@ const validateVotationCenter = (values) => {
   return error;
 }
 
+const validateVotationCenterStore = (values) => {
+  const error = {};
+
+  if (!values.name) {
+    error.name = 'Ingrese el nombre del centro de votación';
+  }
+  if (!values.municipality) {
+    error.municipality = 'Ingrese el municipio';
+  }
+  if (!values.parish) {
+    error.parish = 'Ingrese el name de la parroquia';
+  }
+  if (!values.full_name) {
+    error.full_name = 'Ingrese el nombre del responsable.';
+  }
+  if (!values.login) {
+    error.login = 'Ingrese el nombre de usuario.';
+  }
+  if (!values.password) {
+    error.password = 'Ingrese la contraseña.';
+  }
+  if (!values.electors) {
+    error.electors = 'Ingrese el número de electores esperados.';
+  }
+
+  return error;
+}
+
 export const VotationCentersList = (props) => {
   const user = useSelector(store => store.user.user);
 
@@ -76,37 +105,19 @@ export const VotationCentersList = (props) => {
   );
 };
 
-export const VotationCentersCreate = (props) => {
-  const [users, setUsers] = useState();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(async () => {
-    const { response } = await fetchUsers();
-
-    setUsers(response.data);
-    setLoading(false);
-  }, []);
-
-  if (loading) return <Loading />;
-
-  return (
-    <Create {...props} title="Nuevo centro de votación" >
-      <SimpleForm validate={validateVotationCenter} redirect='list' >
-        <TextInput source="name" label="Nombre" />
-        <TextInput source="municipality" label="Municipio" />
-        <TextInput source="parish" label="Parroquia" />
-        <NumberInput source='electors' label="Electores" min={1}/>
-        <SelectInput
-          source="user"
-          choices={users}
-          optionText="full_name"
-          optionValue='id'
-          label="Usuario responsable"
-        />
-      </SimpleForm>
-    </Create>
-  );
-};
+export const VotationCentersCreate = (props) => (
+  <Create {...props} title="Nuevo centro de votación" >
+    <SimpleForm validate={validateVotationCenterStore} redirect='list' >
+      <TextInput source="name" label="Nombre" />
+      <TextInput source="municipality" label="Municipio" />
+      <TextInput source="parish" label="Parroquia" />
+      <NumberInput source='electors' label="Electores" min={1}/>
+      <TextInput source="full_name" label="Nombre del responsable" />
+      <TextInput source="login" label="Usuario" />
+      <PasswordInput source="password" label="Contraseña" />
+    </SimpleForm>
+  </Create>
+);
 
 export const VotationCentersEdit = (props) => {
   const [users, setUsers] = useState();

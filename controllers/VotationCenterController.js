@@ -2,6 +2,7 @@ const Model = require('../models/VotationCenter');
 const User = require('../models/User');
 const validator = require('../validation/votationCenters');
 const useFilter = require('../utils/filter');
+const bcrypt = require('bcrypt');
 
 const get = async (req, res) => {
   const { page, perPage, filter } = req.query;
@@ -32,14 +33,26 @@ const show = async (req, res) => {
 }
 
 const store = async (req, res) => {
-  const data = req.body;
+  const { login, full_name, password, ...rest } = req.body;
+
+  const hash = await bcrypt.hash(password, 10);
+  let user = await User.create({
+    'full_name': full_name,
+    'login': login,
+    'role': 'USER',
+    'password': hash
+  });
   
-  let votationCenter = new Model(data);
+  let votationCenter = new Model({
+    ...rest,
+    user: user.id
+  });
 
   await votationCenter.save()
-    .then(model => {
-      User.findByIdAndUpdate(model.user, { votationCenter: model.id }, { new: true }) 
-        .then(() => res.status(200).json(model));
+    .then(async (model) => {
+      await user.update({ votationCenter: model.id }, { new: true });
+
+      return res.json(model);
     })
     .catch(err => res.status(400).json(err.message));
 };
