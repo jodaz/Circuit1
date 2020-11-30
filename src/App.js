@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Admin, Loading, Resource } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 import {
   VotationCentersEdit,
   VotationCentersList,
   VotationCentersCreate
 } from './components/VotationCenters';
-import { UsersEdit, UsersList, UsersCreate } from './components/Users';
+import {  MunicipalityList } from './components/Municipalities';
+import {  UsersList, UsersCreate } from './components/Users';
 import Login from './components/Login';
 import { customRoutes } from './utils';
 import { Provider } from 'react-redux';
@@ -19,6 +20,7 @@ import Layout from './layout';
 import { createMuiTheme } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
+import PublicIcon from '@material-ui/icons/Public';
 
 import {
   store,
@@ -34,6 +36,13 @@ const theme = createMuiTheme({
 });
 
 const resources = rol => ([
+  <Resource 
+    name="municipalities"
+    icon={<PublicIcon />}
+    list={MunicipalityList}
+    options={{ label: 'Municipios' }}
+    key={2}
+  />,
   <Resource 
     name="votation-centers"
     icon={<CenterFocusStrongIcon />}
