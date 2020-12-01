@@ -8,12 +8,14 @@ import {
   TextField,
   Create,
   SimpleForm,
-  TextInput
+  TextInput,
+  SimpleList,
 } from 'react-admin';
 import Actions from './Actions';
 import Filter from './Filter';
 import ModuleActions from './ModuleActions';
 import { useSelector } from 'react-redux';
+import { useMediaQuery } from '@material-ui/core';
 
 const choices = [
   { id: 'ADMIN', name: 'ADMIN'},
@@ -42,6 +44,7 @@ const validateUsers = (values) => {
 
 export const UsersList = (props) => {
   const user = useSelector(store => store.user.user);
+  const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   return (
     <List 
@@ -55,14 +58,21 @@ export const UsersList = (props) => {
       bulkActionButtons={false}
       filters={<Filter defaultfilter='full_name' />}
     >
-      <Datagrid>
-        <TextField source="full_name" label="Nombre completo"/>
-        <TextField source="login" label="Login" />
-        {
-          (user.role === 'ADMIN') &&
-          <Actions {...props} /> 
-        }
-      </Datagrid>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => `${record.full_name}`}
+          tertiaryText={record => `${record.login}`}
+        />
+      ) : (
+        <Datagrid>
+          <TextField source="full_name" label="Nombre completo"/>
+          <TextField source="login" label="Login" />
+          {
+            (user.role === 'ADMIN') &&
+            <Actions {...props} /> 
+          }
+        </Datagrid>
+      )}
     </List>
   );
 };

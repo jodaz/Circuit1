@@ -13,12 +13,14 @@ import {
   NumberInput,
   SimpleForm,
   TextInput,
+  SimpleList,
 } from 'react-admin';
 import Actions from './Actions';
 import ModuleActions from './ModuleActions';
 import { fetchUsers } from '../fetch';
 import { useSelector } from 'react-redux';
 import Filter from './Filter';
+import { useMediaQuery } from '@material-ui/core';
 
 const Title = ({ record }) => {
   return <span>{record ? `${record.name}` : ''}</span>;
@@ -76,6 +78,7 @@ const validateVotationCenterStore = (values) => {
 
 export const VotationCentersList = (props) => {
   const user = useSelector(store => store.user.user);
+  const isSmall = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
   return (
     <List 
@@ -89,18 +92,26 @@ export const VotationCentersList = (props) => {
       }
       filters={<Filter defaultfilter='name' />}
     >
-      <Datagrid>
-        <TextField label="Nombre" source="name" />
-        <TextField label="Municipio" source="municipality" />
-        <TextField label="Parroquia" source="parish" />
-        <TextField label="Votos" source="votes" />
-        <NumberField label="Electores" source="electors" />
-        <TextField label="Responsable" source="user.full_name" />
-        {
-          (user.role === 'ADMIN') &&
-          <Actions {...props} shouldEdit /> 
-        }
-      </Datagrid>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => record.name}
+          secondaryText={record => `${record.municipality}, ${record.parish}`}
+          tertiaryText={record => `${record.votes} votos`}
+        />
+      ) : (
+        <Datagrid>
+          <TextField label="Nombre" source="name" />
+          <TextField label="Municipio" source="municipality" />
+          <TextField label="Parroquia" source="parish" />
+          <TextField label="Votos" source="votes" />
+          <NumberField label="Electores" source="electors" />
+          <TextField label="Responsable" source="user.full_name" />
+          {
+            (user.role === 'ADMIN') &&
+            <Actions {...props} shouldEdit /> 
+          }
+        </Datagrid>
+      )}
     </List>
   );
 };
