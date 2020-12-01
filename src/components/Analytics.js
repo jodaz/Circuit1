@@ -5,13 +5,14 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import {
   makeStyles,
-  IconButton,
+  ButtonBase,
   CircularProgress,
   Card,
   Grid,
   CardContent,
   Typography
 } from '@material-ui/core';
+import { useRedirect } from 'react-admin';
 import { apiURL } from '../config';
 import axios from 'axios';
 
@@ -40,32 +41,38 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const LoadingCards = ({ classes, loading, data, icon }) => ( 
+const LoadingCards = ({ classes, loading, data, icon, handleClick }) => ( 
   <Grid item sm={6} xs={12}>
     <Card className={classes.root}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          { (loading) 
-            ? <CircularProgress />
-            : <>
-              <Typography component="h5" variant="h5">
-                {data.total}
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                {data.name}
-              </Typography>
-            </>
-          }
-        </CardContent>
-      </div>
-      <div className={classes.iconContainer}>
-        {React.cloneElement(icon, { className: classes.icon})}
-      </div>
+      <ButtonBase
+        className={classes.content}
+        onClick={handleClick}
+      >
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            { (loading) 
+              ? <CircularProgress />
+              : <>
+                <Typography component="h5" variant="h5">
+                  {data.total}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  {data.name}
+                </Typography>
+              </>
+            }
+          </CardContent>
+        </div>
+        <div className={classes.iconContainer}>
+          {React.cloneElement(icon, { className: classes.icon})}
+        </div>
+      </ButtonBase >
     </Card>
   </Grid>
 );
 
 function Analytics() {
+  const redirect = useRedirect();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(true);
   const classes = useStyles();
@@ -90,6 +97,7 @@ function Analytics() {
       loading={isLoading}
       data={data.centers}
       icon={<CenterFocusStrongIcon />}
+      handleClick={() => redirect('/votation-centers')}
     />
     <LoadingCards
       classes={classes}
@@ -102,9 +110,7 @@ function Analytics() {
       loading={isLoading}
       data={data.participation}
       icon={<TrendingUpIcon />}
-      onClick={() => {
-        console.log("Hello Wordl")
-      }}
+      handleClick={() => redirect('/municipalities')}
     />
   </>);
 };
