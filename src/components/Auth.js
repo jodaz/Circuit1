@@ -2,6 +2,7 @@ import React from 'react';
 import { Notification, Title } from 'react-admin';
 import GradeIcon from '@material-ui/icons/Grade';
 import {
+  CssBaseline,
   Avatar,
   Container,
   Box,
@@ -20,23 +21,21 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  footer: {
-    width: '100%',
-    textAlign: 'center',
-    padding: '1em',
-    position: 'relative',
-    clear: 'both',
-    justifyContent: 'space-around',
-    bottom: 0,
-    left: 0
-  },
 }));
 
-const Footer = (props) => (
-  <Box component="footer" m={1} className={props.className}>
-    Alcaldía del Municipio Bermúdez | Dirección de Estadísticas e Informática
-  </Box >
-);
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      Dirección de Estadísticas e Informática
+    <br />
+      <a color="inherit" href="http://somoscarupano.com.ve/">
+        Alcaldía del Municipio Bermúdez
+      </a>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 export default function Auth(props) {
   const { title, children } = props;
@@ -46,7 +45,7 @@ export default function Auth(props) {
     <>
       <Title title={title} />
       <Container component="main" maxWidth="xs">
-
+        <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <GradeIcon /> 
@@ -54,14 +53,15 @@ export default function Auth(props) {
           <Typography component="h1" variant="h5">
             {title} 
           </Typography>
-          <Typography component="subtitle1" variant="body2" >
-            C1A
+          <Typography variant="body2" >
+            SASI
           </Typography>
 
           {children}
-
-          <Notification />
         </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
       </Container>
     </>
   );

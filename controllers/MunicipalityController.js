@@ -6,7 +6,7 @@ const get = async (req, res) => {
             "$group": { 
                 "_id": '$municipality',
                 "totalElectors": {"$sum": "$electors" }, 
-                "totalVotes": { "$sum": "$votes" } 
+                "totalVotes": { "$sum": "$votes" }
             }
         }, {
             "$project": {
@@ -14,7 +14,25 @@ const get = async (req, res) => {
                 id: "$_id",
                 name: "$_id",
                 totalElectors: "$totalElectors",
-                totalVotes: "$totalVotes"
+                totalVotes: "$totalVotes",
+                participation: {
+                    "$cond": [ 
+                        { $eq: [ "$totalVotes", 0 ] }, 
+                        "N/A", 
+                        {
+                            "$round": [
+                                {
+                                    "$multiply": [
+                                        100, {
+                                            "$divide": [ "$totalVotes", "$totalElectors" ]
+                                        }
+                                    ]
+                                },
+                                2
+                            ]
+                        }
+                    ]
+                }
             }
         }
     ]);

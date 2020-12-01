@@ -6,11 +6,41 @@ const basic = async (req, res) => {
       "$group": {
         "_id": null,
         "totalVotes": { "$sum": "$votes" },
-        "totalCenters": { "$sum": 1 }
+        "totalElectors": { "$sum": "$electors" },
+        "totalCenters": { "$sum": 1 } 
+      }
+    }, {
+      "$project": {
+        totalCenters: "$totalCenters",
+        totalElectors: "$totalElectors",
+        totalVotes: "$totalVotes",
+        "participation":{
+          "$cond": [ 
+            { $eq: [ "$totalVotes", 0 ] }, 
+            "N/A", 
+            {
+              "$round": [
+                {
+                  "$multiply": [
+                    100, {
+                      "$divide": [ "$totalVotes", "$totalElectors" ]
+                    }
+                  ]
+                }, 2
+              ]
+            }
+          ]
+        }
       }
     }
   ]);
-  const { totalVotes, totalCenters } = project[0];
+
+  const {
+    totalVotes,
+    totalCenters,
+    totalElectors,
+    participation
+  } = project[0];
 
   return res.json({
     'votes': {
@@ -20,6 +50,14 @@ const basic = async (req, res) => {
     'centers': {
       'name': 'Centros de votación',
       'total': totalCenters
+    },
+    'electors': {
+      'name': 'Total de electores',
+      'total': totalElectors
+    },
+    'participation': {
+      'name': 'Participación',
+      'total': participation
     }
   });
 };

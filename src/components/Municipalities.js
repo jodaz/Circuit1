@@ -21,7 +21,8 @@ export const MunicipalityList = (props) => {
       <Datagrid>
         <TextField label="Municipio" source="name" />
         <NumberField label="Electores" source="totalElectors" />
-        <TextField label="Votantes" source="totalVotes" />
+        <NumberField label="Votantes" source="totalVotes" />
+        <NumberField label="Participación (%)" source="participation" />
       </Datagrid>
     </List>
   );
