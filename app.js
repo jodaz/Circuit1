@@ -10,6 +10,9 @@ const db = require('./config/db');
 
 // Setting up
 const { APP_PORT } = require('./config');
+app.use(helmet({
+    contentSecurityPolicy: false,
+}));
 app.use(passport.initialize());
 require('./config/passport')(passport);
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -54,7 +54,7 @@ export default function Auth(props) {
             {title} 
           </Typography>
           <Typography variant="body2" >
-            SASI
+            C1A
           </Typography>
 
           {children}
