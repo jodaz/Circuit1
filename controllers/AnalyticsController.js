@@ -57,7 +57,7 @@ const basic = async (req, res) => {
     },
     'participation': {
       'name': 'Participación',
-      'total': participation
+      'total': `${participation} %`
     }
   });
 };

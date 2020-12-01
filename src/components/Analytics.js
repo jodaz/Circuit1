@@ -102,6 +102,9 @@ function Analytics() {
       loading={isLoading}
       data={data.participation}
       icon={<TrendingUpIcon />}
+      onClick={() => {
+        console.log("Hello Wordl")
+      }}
     />
   </>);
 };
