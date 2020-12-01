@@ -33,4 +33,8 @@ export const updateVotes = (votes) => ({
 
 export const clearCommons = () => ({
   type: 'CLEAR_COMMONS'
-})
+});
+
+export const loading = () => ({
+  type: 'LOADING'
+});

@@ -9,7 +9,8 @@ const errorsInitialState = {
 };
 
 const commonsInitialState = {
-  votes: 0
+  votes: 0,
+  loading: false
 };
 
 export const errorsReducer = (state = errorsInitialState, action) => {
@@ -49,6 +50,9 @@ export const commonsReducer = (state = commonsInitialState, action) => {
       break;
     case 'CLEAR_COMMONS':
       return { ...commonsInitialState };
+      break;
+    case 'LOADING':
+      return { ...state, loading: !state.loading };
       break;
     default:
       return state;

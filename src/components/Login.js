@@ -6,6 +6,7 @@ import {
   Button
 } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LoadingButton from './LoadingButton';
 // Layout
 import Auth from './Auth';
 import { login } from '../actions';
@@ -27,6 +28,7 @@ const Login = () => {
   const [data, setData] = useState({});
   const dispatch = useDispatch();
   const errors = useSelector(store => store.errors.form);
+  const loading = useSelector(store => store.commons.loading);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,6 +41,7 @@ const Login = () => {
     setData({...data, [name]: value });
     dispatch(setErrors({...errors, [name]: ''}));
   }
+  console.log(loading);
 
   return (
     <Auth title='Iniciar sesión'>
@@ -68,16 +71,17 @@ const Login = () => {
           required
           helperText={errors.password && errors.password}
         />
-        <Button
+        <LoadingButton
           type="submit"
           variant="contained"
           color='secondary'
-          className={classes.submit}
-          startIcon={<ExitToAppIcon />}  
+          classes={classes.submit}
+          icon={<ExitToAppIcon />} 
+          loading={loading}
           fullWidth
         >
           Acceder
-        </Button>
+        </LoadingButton>
       </form>
     </Auth>
   );

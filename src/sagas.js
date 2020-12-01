@@ -1,9 +1,10 @@
 import { put, takeEvery, call, takeLatest } from 'redux-saga/effects';
-import { clearCommons, updateVotes, setUser, setErrors, clearErrors } from './actions';
+import { clearCommons, updateVotes, setUser, setErrors, clearErrors, loading } from './actions';
 import { login, fetchUser, logout } from './fetch';
 import { setAuthToken, history } from './utils';
 
 function* loginSaga(action) {
+  yield put(loading());
   const { response, error } = yield call(() => login(action.payload));
 
   if (response) {
@@ -20,6 +21,7 @@ function* loginSaga(action) {
   } else {
     yield put(setErrors(error))
   }
+  yield put(loading());
 }
 
 function* fetchUserSaga(action) {
