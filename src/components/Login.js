@@ -41,7 +41,6 @@ const Login = () => {
     setData({...data, [name]: value });
     dispatch(setErrors({...errors, [name]: ''}));
   }
-  console.log(loading);
 
   return (
     <Auth title='Iniciar sesión'>

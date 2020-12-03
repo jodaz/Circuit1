@@ -9,7 +9,6 @@ import {
   CardActions,
   Typography
 } from '@material-ui/core';
-import { updateVotes } from '../actions';
 import { useSelector } from 'react-redux';
 import VoteDialog from './Vote';
 import isEmpty from 'is-empty';

@@ -59,7 +59,7 @@ export default function VoteDialog() {
     }
     if (!isEmpty(response)) {
       handleClose();
-      dispatch(updateVotes(response.votes));
+      dispatch(updateVotes(response.dispatches));
       notify('¡Votos enviados!');
     }
     setLoading(false);
@@ -100,12 +100,13 @@ export default function VoteDialog() {
               label="Votos"
               name="votes"
               onChange={handleData}
-              defaultValue={1}
+              defaultValue={0}
               required
-              inputProps={{
-                min: "1",
-              }}
+              min={1}
               helperText={errors.votes && errors.votes}
+              onInput={(e)=>{ 
+                e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,5)
+              }}
             />
           </>)
           : <CircularProgress />

@@ -11,7 +11,7 @@ function* loginSaga(action) {
     const { token, user } = response;
 
     if (user.role === 'USER') {
-      yield put(updateVotes(user.votationCenter.votes));
+      yield put(updateVotes(user.votationCenter.dispatches));
     }
 
     yield put(setUser(user))
@@ -31,7 +31,7 @@ function* fetchUserSaga(action) {
     yield put(setUser(response));
 
     if (response.role === 'USER') {
-      yield put(updateVotes(response.votationCenter.votes));
+      yield put(updateVotes(response.votationCenter.dispatches));
     }
 
     yield put(clearErrors());
@@ -52,10 +52,18 @@ function* logoutSaga() {
 }
 
 function* updateVotesSaga(action) {
+  let votes = 0;
+
+  if (action.payload) {
+    votes = action.payload.reduce((total, item) => {
+      return total + item.votes;
+    }, 0);
+  }
+
   yield put({
     type: 'UPDATE_COMMONS',
     payload: {
-      votes: action.payload
+      votes: votes
     }
   });
 }

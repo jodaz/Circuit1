@@ -3,6 +3,7 @@ const User = require('../models/User');
 const validator = require('../validation/votationCenters');
 const useFilter = require('../utils/filter');
 const bcrypt = require('bcrypt');
+const isEmpty = require('is-empty');
 
 const get = async (req, res) => {
   const { page, perPage, filter } = req.query;
@@ -57,7 +58,7 @@ const store = async (req, res) => {
     .catch(err => res.status(400).json(err.message));
 };
 
-const vote = async (req, res) => {
+const vote = (req, res) => {
   const { id } = req.params;
   const { ...data } = req.body;
 
@@ -65,9 +66,19 @@ const vote = async (req, res) => {
 
   if (!isValid) return res.status(400).json({ data: errors });
 
-  await Model.findByIdAndUpdate(id, {$inc: { 'votes': data.votes } }, {new: true})
-    .then(model => res.status(200).json(model))
-    .catch(err => res.status(400).json(err.message));
+  Model.findOne({ '_id': id }).then(async (model) => {
+    let votes = 0;
+
+    const newDispatch = {
+      'votes': data.votes - votes,
+      'sent_at': new Date()
+    };
+
+    await model.dispatches.push(newDispatch);
+    await model.save();
+
+    return res.status(200).json(model);
+  });
 };
 
 const update = async (req, res) => {
