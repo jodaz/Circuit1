@@ -3,7 +3,6 @@ const User = require('../models/User');
 const validator = require('../validation/votationCenters');
 const useFilter = require('../utils/filter');
 const bcrypt = require('bcrypt');
-const isEmpty = require('is-empty');
 
 const get = async (req, res) => {
   const { page, perPage, filter } = req.query;
@@ -74,6 +73,7 @@ const vote = (req, res) => {
       'sent_at': new Date()
     };
 
+    model.votes = data.votes;
     await model.dispatches.push(newDispatch);
     await model.save();
 
