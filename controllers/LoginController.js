@@ -12,7 +12,7 @@ const login = async (req, res) => {
 
   const { login, password } = req.body;
 
-  await Model.findOne({ 'login': login })
+  await Model.findOne({ 'login': login.toLowerCase() })
     .populate('votationCenter')
     .then(model => {
       if (isEmpty(model)) {
@@ -26,7 +26,7 @@ const login = async (req, res) => {
           if (match) {
             const payload = { id: model.id };
 
-            jwt.sign(payload, SECRET, { expiresIn: 3600 }, (err, token) => {
+            jwt.sign(payload, SECRET, { expiresIn: 86400 }, (err, token) => {
               if (err) throw err;
 
               res.json({ success: true, token: token, user: model });

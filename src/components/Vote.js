@@ -59,7 +59,7 @@ export default function VoteDialog() {
     }
     if (!isEmpty(response)) {
       handleClose();
-      dispatch(updateVotes(response.dispatches));
+      dispatch(updateVotes(response.votes));
       notify('¡Votos enviados!');
     }
     setLoading(false);
