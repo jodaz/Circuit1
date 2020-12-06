@@ -66,7 +66,7 @@ const vote = (req, res) => {
   if (!isValid) return res.status(400).json({ data: errors });
 
   Model.findOne({ '_id': id }).then(async (model) => {
-    let votes = 0;
+    let votes = (model.dispatches.length) ? model.votes : 0;
 
     const newDispatch = {
       'votes': data.votes - votes,
