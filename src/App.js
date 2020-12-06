@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Admin, Resource } from 'react-admin';
+import { Admin, Resource, ShowGuesser } from 'react-admin';
 import {
   VotationCentersEdit,
   VotationCentersList,
-  VotationCentersCreate
+  VotationCentersCreate,
+  VotationCentersShow
 } from './components/VotationCenters';
 import {  ParishList } from './components/Parishes';
 import {  MunicipalityList } from './components/Municipalities';
@@ -58,6 +59,7 @@ const resources = rol => ([
     list={VotationCentersList}
     edit={rol === 'ADMIN' ? VotationCentersEdit : null}
     create={rol === 'ADMIN' ? VotationCentersCreate : null}
+    show={VotationCentersShow}
     options={{ label: 'Centros de votación' }}
     key={2}
   />,
