@@ -38,7 +38,7 @@ const store = async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
   let user = await User.create({
     'full_name': full_name,
-    'login': login,
+    'login': login.toLowerCase(),
     'role': 'USER',
     'password': hash
   });
