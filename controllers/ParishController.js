@@ -4,7 +4,7 @@ const get = async (req, res) => {
     const data = await VotationCenter.aggregate([
         { 
             "$group": { 
-                "_id": '$municipality',
+                "_id": '$parish',
                 "totalElectors": {"$sum": "$electors" }, 
                 "totalVotes": { "$sum": "$votes" }
             }

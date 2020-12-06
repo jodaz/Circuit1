@@ -5,6 +5,7 @@ import {
   VotationCentersList,
   VotationCentersCreate
 } from './components/VotationCenters';
+import {  ParishList } from './components/Parishes';
 import {  MunicipalityList } from './components/Municipalities';
 import {  UsersList, UsersCreate } from './components/Users';
 import Login from './components/Login';
@@ -20,6 +21,7 @@ import Layout from './layout';
 import { createMuiTheme } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong';
+import BallotIcon from '@material-ui/icons/Ballot';
 import PublicIcon from '@material-ui/icons/Public';
 
 import {
@@ -42,6 +44,13 @@ const resources = rol => ([
     list={MunicipalityList}
     options={{ label: 'Municipios' }}
     key={2}
+  />,
+  <Resource 
+    name="parishes"
+    icon={<BallotIcon />}
+    list={ParishList}
+    options={{ label: 'Parroquias' }}
+    key={4}
   />,
   <Resource 
     name="votation-centers"
