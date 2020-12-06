@@ -15,7 +15,7 @@ const get = async (req, res) => {
     .populate('user')
     .limit(limit) 
     .skip(skip)
-    .sort({ createdAt: -1 })
+    .sort({ "votes": 1 })
     .then(async (models) => {
       res.status(200)
         .json({ data: models, total: total });
@@ -74,7 +74,7 @@ const vote = (req, res) => {
     };
 
     model.votes = data.votes;
-    await model.dispatches.push(newDispatch);
+    model.dispatches.push(newDispatch);
     await model.save();
 
     return res.status(200).json(model);
