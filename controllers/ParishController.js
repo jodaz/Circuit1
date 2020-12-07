@@ -36,7 +36,7 @@ const get = async (req, res) => {
             }
         }, {
             "$sort": {
-                "participation": 1
+                "participation": -1
             }
         }
     ]);

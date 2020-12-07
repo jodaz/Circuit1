@@ -1,4 +1,6 @@
-Contacts List System
+# C1A - CircuitoUnoApp
+
+C1A (CircuitoUnoApp) is a web application built which goal is to record and track the flow of voters in the Circuit One of the Sucre State during the [venezuelan parlamentary elections  (2020)](https://en.m.wikipedia.org/wiki/2020_Venezuelan_parliamentary_election).
 
 ## Getting started
 
